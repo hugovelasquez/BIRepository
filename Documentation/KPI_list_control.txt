@@ -1,0 +1,98 @@
+owner	status 		status 		kpiname														rolename									module
+		Metabase	Git
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Mario	done		pending		Bodega - Entregas completadas hoy							AGR_ES Bodega								Bodega
+								Bodega - Inventarios Fisicos no Completados					AGR_ES Bodega								Bodega
+								Bodega - Inventarios Fisicos no Completados					AGR_ES Gerencia								Bodega
+								Bodega - Inventarios Uso Interno No Completados				AGR_ES Bodega								Bodega
+								Bodega - Inventarios Uso Interno No Completados				AGR_ES Gerencia								Bodega
+Hugo	done		pending		Bodega - Ordenes de Almacen no completadas					AGR_ES Bodega								Bodega
+Hugo	done		pending		Bodega - Ordenes de Almacen no completadas					AGR_ES Ventas y Servicio al Cliente			Bodega
+Hugo	done		pending		Bodega - Ordenes de Almacen no completadas					AGR_Planification Entregas y Facturacion	Bodega
+Mario	done		pending		Bodega - Ordenes de Almacen no entregadas					AGR_ES Gerencia								Bodega
+Mario	done		pending		Bodega - Ordenes de Almacen no entregadas					AGR_ES Ventas Gerencia						Bodega
+Mario	done		pending		Bodega - Ordenes de Almacen no entregadas					AGR_Planification Entregas y Facturacion	Bodega
+								Bodega - Ordenes de Entrega incompletas						AGR_ES Bodega								Bodega
+								Bodega - Ordenes de Entrega incompletas						AGR_ES Gerencia								Bodega
+								Bodega - Ordenes de Entrega incompletas						AGR_ES Ventas Gerencia						Bodega
+								Bodega - Ordenes de Entrega incompletas						AGR_ES Ventas y Servicio al Cliente			Bodega
+Mario	done		pending		Bodega - Ordenes de Venta completadas, no recolectadas		AGR_ES Bodega								Bodega
+Mario	done		pending		Bodega - Ordenes de Venta completadas, no recolectadas		AGR_ES Gerencia								Bodega
+Mario	done		pending		Bodega - Ordenes de Venta completadas, no recolectadas		AGR_ES Ventas Gerencia						Bodega
+Mario	done		pending		Bodega - Ordenes de Venta completadas, no recolectadas		AGR_ES Ventas y Servicio al Cliente			Bodega
+Hugo	done		pending		Bodega - Recibos no Completados								AGR_ES Bodega								Bodega
+Hugo	done		pending		Bodega - Recibos no Completados								AGR_ES Gerencia								Bodega
+Hugo	done		pending		Bodega - Traslados no Completados							AGR_ES Bodega								Bodega
+Hugo	done		pending		Bodega - Traslados no Completados							AGR_ES Gerencia								Bodega
+Mario	done		pending		Bodega -Entregas completadas hoy							AGR_ES Gerencia								Bodega
+Mario	done		pending		Bodega -Entregas no Completadas								AGR_ES Bodega								Bodega
+Mario	done		pending		Bodega -Entregas no Completadas								AGR_ES Gerencia								Bodega
+Mario	done		pending		Bodega -Entregas no Completadas								AGR_Planification Entregas y Facturacion	Bodega
+								Compras - Facturas de Compra no completadas					AGR_ES Gerencia								Compras
+								Compras - Facturas de Compra no completadas					AGR_ES TesorerÃ­a General					Compras
+								Compras - Gastos de Retaceo no distribuidos					AGR_ES Compras								Compras
+								Compras - Gastos de Retaceo no distribuidos					AGR_ES Contabilidad							Compras
+								Compras - Gastos de Retaceo no distribuidos					AGR_ES Gerencia								Compras
+								Compras - Gastos de Retaceo no distribuidos					AGR_ES TesorerÃ­a General					Compras
+								Compras - Ordenes con monto=0								AGR_ES Compras								Compras - Sin lÃ­neas, o con todos los precios=0 o todas las cantidades=0
+								Compras - Ordenes de compra imcompletas de Facturacion		AGR_ES Compras								Compras
+								Compras - Ordenes de Compra imcompletas de Facturacion		AGR_ES Compras								Compras
+								Compras - Ordenes de compra imcompletas de Facturacion		AGR_ES Gerencia								Compras
+								Compras - Ordenes de Compra imcompletas de Facturacion		AGR_ES Gerencia								Compras
+								Compras - Ordenes de Compra no Cerradas						AGR_ES Compras								Compras
+								Compras - Ordenes de Compra no Cerradas						AGR_ES Gerencia								Compras
+								Compras - Ordenes de Compra no completadas					AGR_ES Compras								Compras
+								Compras - Ordenes de Compra no completadas					AGR_ES Gerencia								Compras
+								Compras - Ordenes de Compra sin lineas						AGR_ES Compras								Compras
+								Compras - Ordenes de Compra sin lineas						AGR_ES Gerencia								Compras
+								Compras - Ordenes imcompletas de Recibo de Material			AGR_ES Compras								Compras
+								Compras - Ordenes imcompletas de Recibo de Material			AGR_ES Gerencia								Compras
+								Compras - Ordenes no Cerradas								AGR_ES Compras								Compras
+								Compras - Ordenes no completadas							AGR_ES Compras								Compras
+								Compras - Requisiciones cerradas							AGR_ES Compras								Compras
+								Compras - Requisiciones completadas							AGR_ES Compras								Compras
+								Compras - Requisiciones en borrador							AGR_ES Compras								Compras
+								Compras - Requisiciones en proceso							AGR_ES Compras								Compras
+								CyC - Cobros no Completados									AGR_ES Creditos y Cobros					CyC
+								CyC - Cobros no Completados									AGR_ES Gerencia								CyC
+								CyC - Seleccion de Cobro en Proceso							AGR_ES Creditos y Cobros					CyC
+								ProducciÃ³n - Ordenes de Produccion No Completadas			AGR_ES Gerencia								ProducciÃ³n
+								ProducciÃ³n - Ordenes de Produccion No Completadas			AGR_ES ProducciÃ³n							ProducciÃ³n
+								ProducciÃ³n - Ordenes de Produccion Terminadas				AGR_ES Gerencia								ProducciÃ³n
+								ProducciÃ³n - Ordenes de Produccion Terminadas				AGR_ES ProducciÃ³n							ProducciÃ³n
+								Tesoreria - Pagos no Asignados								AGR_ES Gerencia								Tesoreria
+								Tesoreria - Pagos no Asignados								AGR_ES TesorerÃ­a General					Tesoreria
+								Tesoreria - Pagos no Completados							AGR_ES Gerencia								Tesoreria - Bedingung vom Fenster (keine Kassen ) am Ende des SQL
+								Tesoreria - Pagos no Completados							AGR_ES TesorerÃ­a General					Tesoreria - Bedingung vom Fenster (keine Kassen ) am Ende des SQL
+								Tesoreria - Pagos planeados no pagados						AGR_ES Gerencia								Tesoreria
+								Tesoreria - Pagos planeados no pagados						AGR_ES TesorerÃ­a General					Tesoreria
+								Tesoreria - Seleccion de Pagos no completados				AGR_ES Gerencia								Tesoreria
+								Tesoreria - Seleccion de Pagos no completados				AGR_ES TesorerÃ­a General					Tesoreria
+								Tesoreria - Seleccion de Pagos no pagados					AGR_ES Gerencia								Tesoreria
+								Tesoreria - Seleccion de Pagos no pagados					AGR_ES TesorerÃ­a General					Tesoreria
+								Ventas - Facturas completadas hoy							AGR_ES Creditos y Cobros					Ventas
+								Ventas - Facturas completadas hoy							AGR_ES Ventas y Servicio al Cliente			Ventas
+Mario	done		pending		Ventas - Facturas de venta completadas hoy					AGR_ES Gerencia								Ventas
+Hugo	done		pending		Ventas - Facturas de Venta no completadas					AGR_ES Gerencia								Ventas 
+Hugo	done		pending		Ventas - Facturas de Venta no completadas					AGR_ES Ventas Gerencia						Ventas
+Hugo	done		pending		Ventas - Facturas de Venta no completadas					AGR_ES Ventas y Servicio al Cliente			Ventas 
+Hugo	done		pending		Ventas - Facturas de Venta no completadas					AGR_Planification Entregas y Facturacion	Ventas
+Mario	done		pending		Ventas - OdV en proceso										AGR_ES Gerencia								Ventas
+Mario	done		pending		Ventas - OdV en proceso										AGR_ES Ventas Gerencia						Ventas
+Mario	done		pending		Ventas - OdV en proceso										AGR_ES Ventas y Servicio al Cliente			Ventas
+Mario	done		pending		Ventas - OdV errÃ³neas										AGR_ES Creditos y Cobros					Ventas - Errores: perÃ­odo cerrado, mal almacÃ©n, no lÃ­neas , lÃ­mite de crÃ©dito excedido, termino de pago excedido, etc.
+Mario	done		pending		Ventas - OdV errÃ³neas										AGR_ES Gerencia								Ventas - Errores: perÃ­odo cerrado, mal almacÃ©n, no lÃ­neas , lÃ­mite de crÃ©dito excedido, termino de pago excedido, etc.
+Mario	done		pending		Ventas - OdV errÃ³neas										AGR_ES Ventas Gerencia						Ventas -  Errores: perÃ­odo cerrado, mal almacÃ©n, no lÃ­neas , lÃ­mite de crÃ©dito excedido, termino de pago excedido, etc.
+Mario	done		pending		Ventas - OdV errÃ³neas										AGR_ES Ventas y Servicio al Cliente			Ventas -  Errores: perÃ­odo cerrado, mal almacÃ©n, no lÃ­neas , lÃ­mite de crÃ©dito excedido, termino de pago excedido, etc.
+Mario	done		pending		Ventas - Ordenes de venta incompletas de Facturacion		AGR_ES Gerencia								Ventas
+Mario	done		pending		Ventas - Ordenes de venta incompletas de Facturacion		AGR_ES Ventas Gerencia						Ventas
+Mario	done		pending		Ventas - Ordenes de venta incompletas de Facturacion		AGR_ES Ventas y Servicio al Cliente			Ventas
+Mario	done		pending		Ventas - Ordenes de Venta incompletas de Facturacion		AGR_Planification Entregas y Facturacion	Ventas
+								Ventas - Ordenes de Venta no Cerradas						AGR_ES Gerencia								Ventas
+								Ventas - Ordenes de Venta no Cerradas						AGR_ES Ventas Gerencia						Ventas
+Mario	done		pending		Ventas - Ordenes de Venta no completadas					AGR_ES Gerencia								Ventas
+Mario	done		pending		Ventas - Ordenes de Venta no completadas					AGR_ES Ventas Gerencia						Ventas
+								Ventas - Ordenes en borrador o en proceso					AGR_ES Ventas Gerencia						Ventas
+								Ventas - Ordenes en borrador o en proceso					AGR_Planification Entregas y Facturacion	Ventas
+								Ventas - Ordenes no Cerradas								AGR_Planification Entregas y Facturacion	Ventas
+								Ventas - Ordenes no completadas								AGR_ES Ventas y Servicio al Cliente			Ventas
