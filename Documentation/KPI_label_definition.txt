@@ -2,13 +2,11 @@
 
 dateinvoiced	Fecha de Facturación
 movementdate	Fecha de Entrega, Fecha de Traslado
-dateordered		Fecha Orden de Venta (OdV)
-OdV				Orden de Venta
-OdA				Orden de Almacén
-documento		Número del documento 
-docstatus		Estatus del documento
-				Puede ser Borrador(DR) , En Proceso (IP),
-				Completado (CO), Inválido (IV), Anulado (VO), Cerrado (CL) etc.
+dateordered	Fecha Orden de Venta (OdV)
+OdV		Orden de Venta
+OdA		Orden de Almacén
+documento	Número del documento 
+docstatus	Estatus del documento. Puede ser Borrador(DR) , En Proceso (IP), Completado (CO), Inválido (IV), Anulado (VO), Cerrado (CL) etc.
 AD_Client_ID	Empresa. Adempiere puede mantener varias empresas al mismo tiempo.
             	Cada registro tiene AD_Client_ID que define a cuál empresa pertenece el
             	registro. AD_Client_ID = 1000000 es “Agr.......vador”.
@@ -16,4 +14,4 @@ AD_Client_ID	Empresa. Adempiere puede mantener varias empresas al mismo tiempo.
 
 #Formato de Labels: 
 
-Fechas			DD/MM/YYYY (excluir hh:mm)
+Fechas		DD/MM/YYYY (excluir hh:mm)
