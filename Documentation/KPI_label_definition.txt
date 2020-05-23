@@ -5,6 +5,8 @@ movementdate	Fecha de Entrega, Fecha de Traslado
 dateordered	Fecha Orden de Venta (OdV)
 OdV		Orden de Venta
 OdA		Orden de Almacén
+OdC		Orden de Compra
+FdC		Factura de Compra
 documento	Número del documento 
 docstatus	Estatus del documento. Puede ser Borrador(DR) , En Proceso (IP), Completado (CO), Inválido (IV), Anulado (VO), Cerrado (CL) etc.
 AD_Client_ID	Empresa. Adempiere puede mantener varias empresas al mismo tiempo.
