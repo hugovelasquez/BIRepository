@@ -1,3 +1,7 @@
+-- Nombre: KPI - OdC no Cerradas
+
+-- Descripción:
+-- Ordenes de Compra no Cerradas
 SELECT ord.dateordered, count(ord.C_Order_ID) 
 FROM C_Order ord
 WHERE  ord.dateordered >= (Current_Date- {{Dias_previos}} )

@@ -1,3 +1,12 @@
+-- Nombre: Facturación, Costo y Margen de ganancia (%) por Vendedor
+
+-- Descripción:
+--Venta bruta=Monto facturado: con impuestos extrahídos, no incluidas anulaciones ni devoluciones.
+--Margen de ganancia en %  = (Monto Facturado - Costos) / Monto Facturado.
+--El margen de ganancia no incluye devoluciones ni anulaciones.
+--Si hay una cantidad considerable de devoluciones y anulaciones, éste dato no concuerda con la realidad.
+--Filtro:  rango de fechas y Límite de cantidad de Vendedores desplegadas.
+--Filtro obligatorio:  rango de fechas y Límite de cantidad de Vendedores desplegadas.
 SELECT ild.salesrepname as "Vendedor", sum(ild.linenetamtreal) as "Facturado", sum(ild.transactioncost) as "Costo", CASE 
       WHEN sum(ild.linenetamtreal) = 0 THEN 0
       ELSE round(( (sum(ild.linenetamtreal) - sum(ild.transactioncost))/sum(ild.linenetamtreal))*100,2) 

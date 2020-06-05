@@ -1,12 +1,11 @@
---- Nombre: Facturación Neta por Mes acumulada (Filtro: Fecha)
+--- Nombre: FacturaciÃ³n Neta por Mes acumulada
 
---- Descripcion: Venta Neta acumulada por Mes: en cada mes se le suman los meses anteriores.
---- Monto facturado: con impuestos extrahídos, no incluidas anulaciones ni devoluciones.
---- Venta neta = Monto Facturado - Devoluciones - Anulaciones.
----  Filtro: rango de fechas.
----  Filtro obñigatorio: rango de fechas.
-
-
+--DescripciÃ³n
+-- Venta Neta acumulada por Mes: a cada mes se le suman los meses anteriores.
+-- Monto facturado: con impuestos extrahÃ­dos, no incluidas anulaciones ni devoluciones.
+-- Venta neta = Monto Facturado - Devoluciones - Anulaciones.
+-- Filtro: rango de fechas.
+-- Filtro obligatorio: rango de fechas.
 SELECT ild.dateinvoicedmonth AS "Mes", 
 sum(ild.linenetamtreal) AS "Facturado", 
 sum(sum(ild.linenetamtreal)) OVER (ORDER BY ild.dateinvoicedmonth ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS "Facturado acumulado",

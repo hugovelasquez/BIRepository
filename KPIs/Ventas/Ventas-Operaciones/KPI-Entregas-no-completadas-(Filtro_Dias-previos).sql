@@ -1,3 +1,7 @@
+-- Nombre: KPI - Entregas no Completadas
+
+-- Descripción:
+-- Entregas no Completadas (= estado "Borrador", "En Proceso" o "Invalido")
 SELECT movementdate , count(*) 
 FROM  M_InOut
 WHERE movementdate  >=  Current_Date- {{Dias_previos}} 

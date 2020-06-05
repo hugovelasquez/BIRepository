@@ -1,3 +1,8 @@
+-- Nombre: KPI - Gastos de Retaceo no distribuidos
+
+-- Descripción:
+-- Gastos de Retaceo no distribuidos: Facturas de retaceo que no han sido distruibuidas
+-- Modificar C_Charge_ID dependiendo de empresa!
 SELECT inv.dateinvoiced , count(inv.C_Invoice_ID) 
 FROM C_Invoice inv
 WHERE inv.dateinvoiced >= (Current_Date- {{Dias_previos}} )

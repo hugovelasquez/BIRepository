@@ -1,4 +1,15 @@
-SELECT dateinvoicedmonth AS "Mes", pcatname as "L�nea", 
+-- Nombre: Facturación, Costo y Margen de ganancia (monto) por Línea y mes acumulada
+
+-- Descripción:
+--Venta bruta, costos y margen de ganancia monto por Línea.
+--A cada mes se le suman los meses anteriores.
+--Venta bruta=Monto facturado: con impuestos extrahídos, no incluidas anulaciones ni devoluciones.
+--Margen de ganancia = Monto Facturado - Costos
+--El margen de ganancia no incluye devoluciones ni anulaciones.
+--Si hay una cantidad considerable de devoluciones y anulaciones, éste dato no concuerda con la realidad.
+--Filtro:  rango de fechas y  Línea.
+--Filtro obligatorio:  rango de fechas y  Línea.
+SELECT dateinvoicedmonth AS "Mes", pcatname as "Línea", 
 sum(linenetamtreal) AS "Facturado", 
 sum(sum(linenetamtreal)) OVER (ORDER BY dateinvoicedmonth ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS "Facturado acumulado",
 

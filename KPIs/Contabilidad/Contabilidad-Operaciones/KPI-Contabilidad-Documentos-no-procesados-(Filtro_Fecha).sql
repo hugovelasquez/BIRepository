@@ -1,5 +1,6 @@
+-- Nombre: KPI - Contabilidad Documentos no procesados
 
-
+-- DescripciÃ³n:
 -- Documentos no procesados
 SELECT  
 CASE 
@@ -19,8 +20,8 @@ CASE
       WHEN t.AD_Table_ID=473 THEN 'Asignacion Recibo.OdC'
       WHEN t.AD_Table_ID=623 THEN 'Salida Inventario (Proyecto)'
       WHEN t.AD_Table_ID=702 THEN 'Requisicion de Material'
-      WHEN t.AD_Table_ID=735 THEN 'Asignación Pago/Cobro'
-      WHEN t.AD_Table_ID=53092 THEN 'Nómina/Planilla'
+      WHEN t.AD_Table_ID=735 THEN 'Asignaciï¿½n Pago/Cobro'
+      WHEN t.AD_Table_ID=53092 THEN 'Nï¿½mina/Planilla'
       ELSE ttrl.name
 END as "Documento", count(*) AS "Cantidad no procesados"
 FROM rv_unposted u

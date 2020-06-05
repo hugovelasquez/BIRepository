@@ -1,3 +1,7 @@
+-- Nombre: KPI - Pagos planeados no pagados
+
+-- Descripción:
+-- Seleccion de pagos no pagadas
 SELECT ps.paydate, count(ps.C_PaySelection_ID) 
 FROM C_PaySelection ps
 WHERE  ps.paydate >= (Current_Date - {{Dias_previos}} )

@@ -1,3 +1,7 @@
+-- Nombre: KPI - OdV incompletas de Entrega
+
+-- Descripción:
+-- Ordenes de Venta con entregas incompletas por día.
 SELECT ord.dateordered , count(C_Order_ID) 
 FROM C_Order ord
 WHERE 

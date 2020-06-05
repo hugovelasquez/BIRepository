@@ -1,3 +1,7 @@
+-- Nombre: KPI - OdV en proceso
+
+-- Descripción:
+-- OdV en proceso por día (=no en borrador ni completadas)
 SELECT ord.dateordered , count(ord.C_Order_ID) 
 FROM C_Order ord
 WHERE ord.dateordered >= (Current_Date- {{Dias_previos}} )

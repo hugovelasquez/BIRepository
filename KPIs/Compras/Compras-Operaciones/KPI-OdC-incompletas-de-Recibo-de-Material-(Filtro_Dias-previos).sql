@@ -1,3 +1,7 @@
+-- Nombre: KPI - OdC incompletas de Recibo de Material
+
+-- Descripción:
+-- Ordenes de Compra completadas, pero incompletas de Recibo de Material
 SELECT ord.dateordered , count(ord.C_Order_ID) 
 FROM C_Order ord
 WHERE  ord.dateordered >= (Current_Date- {{Dias_previos}} )

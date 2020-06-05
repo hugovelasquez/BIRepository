@@ -1,3 +1,7 @@
+-- Nombre: KPI - Facturas de venta completadas
+
+-- Descripción:
+-- Facturas de venta completadas por día
 SELECT inv.dateinvoiced , count(inv.C_Invoice_ID) 
 FROM C_Invoice inv
 WHERE inv.dateinvoiced >= (Current_Date- {{Dias_previos}} )

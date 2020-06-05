@@ -1,3 +1,7 @@
+-- Nombre: KPI - Entregas Completadas
+
+-- Descripción:
+-- Cantidad de Entregas de Material completadas
 SELECT movementdate , count(*) 
 FROM  M_InOut
 WHERE movementdate >= current_date - {{Dias_previos}} 

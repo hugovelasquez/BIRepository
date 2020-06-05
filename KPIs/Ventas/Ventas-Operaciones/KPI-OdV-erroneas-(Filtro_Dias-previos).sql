@@ -1,3 +1,8 @@
+-- Nombre: KPI - OdV erróneas
+
+-- Descripción:
+-- OdV erróneas por día.
+-- Posibles errores: período cerrado, mal almacén, no líneas , límite de crédito excedido, termino de pago excedido, etc.
 SELECT ord.dateordered , count(ord.C_Order_ID) 
 FROM C_Order ord
 WHERE  ord.dateordered >= (Current_Date- {{Dias_previos}} )

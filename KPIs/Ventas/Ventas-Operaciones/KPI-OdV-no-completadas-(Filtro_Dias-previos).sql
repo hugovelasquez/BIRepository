@@ -1,3 +1,7 @@
+-- Nombre: KPI - OdV no completadas
+
+-- Descripción:
+-- Ordenes de Venta no completadas por día.
 SELECT ord.dateordered , count(C_Order_ID) 
 FROM C_Order ord
 WHERE ord.dateordered >= (Current_Date- {{Dias_previos}} )

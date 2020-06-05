@@ -1,3 +1,7 @@
+-- Nombre: KPI - Ordenes de Almacen no entregadas
+
+-- Descripción:
+-- Ordenes de Almacen procesadas por día, pero no entregadas.
 SELECT shipdate , count(WM_InoutBound_ID) 
 FROM WM_InoutBound iob
 WHERE iob.shipdate >= (Current_Date- {{Dias_previos}} )

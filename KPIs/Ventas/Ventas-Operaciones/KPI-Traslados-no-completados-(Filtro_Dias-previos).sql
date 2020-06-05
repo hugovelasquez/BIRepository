@@ -1,3 +1,7 @@
+-- Nombre: KPI - Traslados no completados
+
+-- Descripción:
+-- Número de traslados no completados por día.
 SELECT movementdate, count(*)
 FROM m_movement
 WHERE movementdate  >= (Current_Date- {{Dias_previos}} )

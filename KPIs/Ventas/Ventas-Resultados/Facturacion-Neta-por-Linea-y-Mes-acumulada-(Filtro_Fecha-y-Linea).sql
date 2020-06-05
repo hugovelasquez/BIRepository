@@ -1,3 +1,11 @@
+-- Nombre: Facturación Neta por Línea y Mes acumulada
+
+-- Descripción:
+-- Ventas Netas por Línea y Mes acumuladas: a cada mes se le suman los meses anteriores.
+-- Monto facturado: con impuestos extrahídos, no incluidas anulaciones ni devoluciones.
+-- Venta neta = Monto Facturado - Devoluciones - Anulaciones.
+-- Filtro: rango de fechas, Línea.
+-- Filtro obligatorio: rango de fechas, Línea.
 SELECT dateinvoicedmonth AS "Mes", 
 sum(linenetamtreal) AS "Facturado", 
 sum(sum(linenetamtreal)) OVER (ORDER BY dateinvoicedmonth ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS "Facturado acumulado",

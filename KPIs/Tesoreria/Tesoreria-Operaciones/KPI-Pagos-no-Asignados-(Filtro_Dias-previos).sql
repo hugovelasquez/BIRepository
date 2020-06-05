@@ -1,3 +1,7 @@
+-- Nombre: KPI - Pagos no Asignados
+
+-- Descripción:
+-- Pagos completados, pero no asignados
 SELECT p.datetrx, count(p.C_Payment_ID) 
 FROM C_Payment p
 WHERE  p.datetrx >= (Current_Date - {{Dias_previos}} )

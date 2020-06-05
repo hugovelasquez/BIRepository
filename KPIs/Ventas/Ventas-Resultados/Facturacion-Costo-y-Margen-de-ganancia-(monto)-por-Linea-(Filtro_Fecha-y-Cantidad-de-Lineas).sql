@@ -1,4 +1,13 @@
-SELECT ild.pcatname as "L�nea", sum(ild.linenetamtreal) as "Facturado", sum(ild.transactioncost) as "Costo", sum(marge_abs) as "Margen (monto)" 
+-- Nombre: Facturación, Costo y Margen de ganancia (monto) por Línea 
+
+-- Descripción:
+-- Venta bruta=Monto facturado: con impuestos extrahídos, no incluidas anulaciones ni devoluciones.
+--Margen de ganancia = Monto Facturado - Costos
+--El margen de ganancia no incluye devoluciones ni anulaciones.
+--Si hay una cantidad considerable de devoluciones y anulaciones, éste dato no concuerda con la realidad.
+--Filtro:  rango de fechas y Límite de cantidad de Líneas desplegadas.
+--Filtro obligatorio:  rango de fechas y Límite de cantidad de Líneas desplegadas.
+SELECT ild.pcatname as "L�nea", sum(ild.linenetamtreal) as "Facturado", sum(ild.transactioncost) as "Costo", sum(marge_abs) as "Margen (monto)" 
 FROM rv_invoiceline_detail ild
 WHERE ild.dateinvoiced BETWEEN {{Fecha_inicio}} AND {{Fecha_final}}
 AND AD_Client_ID = 1000000 

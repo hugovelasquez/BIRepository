@@ -1,3 +1,7 @@
+-- Nombre: KPI- OdV no recolectadas
+
+-- Descripción:
+-- Ordenes de Venta completadas por día, no recolectadas.
 SELECT  ord.dateordered , count(C_Order_ID) 
 FROM C_Order ord
 WHERE

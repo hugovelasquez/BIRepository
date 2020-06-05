@@ -1,3 +1,7 @@
+-- Nombre: KPI - OdC incompletas de Facturacion
+
+-- Descripción:
+-- Ordenes de compra imcompletas de Facturacion: no se ha facturado o sólo se ha facturado parcialmente.
 SELECT ord.dateordered, count(ord.C_Order_ID) 
 FROM C_Order ord
 WHERE  ord.dateordered >= (Current_Date- {{Dias_previos}} )

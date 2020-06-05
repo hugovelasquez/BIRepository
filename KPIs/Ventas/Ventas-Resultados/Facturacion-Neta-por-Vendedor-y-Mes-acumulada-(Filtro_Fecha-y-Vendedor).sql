@@ -1,6 +1,11 @@
---Facturaci�n Neta Vendedor por Mes acumulada - Filtro con lista
+-- Nombre: Facturación Neta por Vendedor y Mes acumulada
 
-
+-- Descripción:
+-- Venta Neta acumulada por Vendedor y Mes: a cada mes se le suman los meses anteriores.
+-- Monto facturado: con impuestos extrahídos, no incluidas anulaciones ni devoluciones.
+-- Venta neta = Monto Facturado - Devoluciones - Anulaciones.
+-- Filtro: rango de fechas y Vendedor.
+-- Filtro obligatorio: rango de fechas y Vendedor.
 SELECT dateinvoicedmonth AS "Mes", 
 sum(linenetamtreal) AS "Facturado", 
 sum(sum(linenetamtreal)) OVER (ORDER BY dateinvoicedmonth ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS "Facturado acumulado",
