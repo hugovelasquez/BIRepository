@@ -1,7 +1,6 @@
+-- Function: gettransactionmarge_abs(numeric)
 -- material marge amount for a given invoiceline
 -- formula: linenetamt-cost
-
--- Function: gettransactionmarge_abs(numeric)
 
 -- DROP FUNCTION gettransactionmarge_abs(numeric);
 
@@ -10,23 +9,18 @@ CREATE OR REPLACE FUNCTION gettransactionmarge_abs(p_c_invoiceline_id numeric)
 $BODY$
 
 DECLARE
-
 	v_Cost						NUMERIC;
-
 	v_linenetamt				NUMERIC;
-
 	v_Marge 					NUMERIC;
-
 BEGIN
+    v_Marge = 0.0;
+    SELECT getTransactionCost(C_Invoiceline_ID), linenetamtrealinvoiceline(C_Invoiceline_ID) INTO v_Cost, v_linenetamt
+    FROM c_Invoiceline ivl 
+    WHERE ivl.c_INvoiceline_ID = p_C_InvoiceLine_ID;
 
-		v_Marge = 0.0;
+    IF (v_Cost = 0) THEN  RETURN v_Marge; END IF;
 
-		select getTransactionCost(C_Invoiceline_ID), linenetamtrealinvoiceline(C_Invoiceline_ID) INTO v_Cost, v_linenetamt
-
-from c_Invoiceline ivl 
-where ivl.c_INvoiceline_ID = p_C_InvoiceLine_ID;
-
-v_Marge = (v_linenetamt - v_Cost);
+    v_Marge = (v_linenetamt - v_Cost);
 	RETURN round(v_Marge, 5);
 END;
 
