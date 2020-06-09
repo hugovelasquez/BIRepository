@@ -7,7 +7,7 @@
 -- Si hay una cantidad considerable de devoluciones y anulaciones, éste dato no concuerda con la realidad.
 -- Filtro:  rango de fechas y Límite de cantidad de Líneas desplegadas.
 -- Filtro obligatorio:  rango de fechas y Límite de cantidad de Líneas desplegadas.
-SELECT ild.pcatname as "L�nea", sum(ild.linenetamtreal) as "Facturado", sum(ild.transactioncost) as "Costo", 
+SELECT ild.pcatname as "Línea", sum(ild.linenetamtreal) as "Facturado", sum(ild.transactioncost) as "Costo", 
 CASE 
       WHEN sum(ild.linenetamtreal) = 0 THEN 0
       ELSE round(( (sum(ild.linenetamtreal) - sum(ild.transactioncost))/sum(ild.linenetamtreal))*100,2) 
