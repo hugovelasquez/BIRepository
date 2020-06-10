@@ -34,7 +34,7 @@ CREATE MATERIALIZED VIEW rv_invoiceline_detail AS
     COALESCE(taxtrl.name, tax.name) AS tax,
     linenetamtrealinvoiceline(il.c_invoiceline_id) AS linenetamtreal,
     linenetamtreturned(il.c_invoiceline_id) AS linenetamtreturned,
-    linenetamtvoided(il.reversalline_id) AS linenetamtvoided,
+    abs(linenetamtvoided(il.reversalline_id)) AS linenetamtvoided,
     0 AS linenetamtreinvoiced,
     linenetamtrealinvoiceline(il.c_invoiceline_id) + linenetamtvoided(il.reversalline_id) - linenetamtreturned(il.c_invoiceline_id) AS netsales,
     i.c_invoice_id,
