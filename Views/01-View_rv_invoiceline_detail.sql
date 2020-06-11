@@ -66,7 +66,8 @@ CREATE MATERIALIZED VIEW rv_invoiceline_detail AS
     ppo.order_min,
     gettransactionpurchaseprice(il.c_invoiceline_id) AS pricepo,
     gettransactionmarge_abs(il.c_invoiceline_id) AS marge_abs,
-    p.producttype
+    p.producttype,
+    dt.isdiscountallowedontotal
    FROM c_invoice i
      JOIN c_invoiceline il ON i.c_invoice_id = il.c_invoice_id
      JOIN ad_client cl ON i.ad_client_id = cl.ad_client_id
