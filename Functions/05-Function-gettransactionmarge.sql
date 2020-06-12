@@ -7,12 +7,13 @@ CREATE OR REPLACE FUNCTION gettransactionmarge(p_c_invoiceline_id numeric)
 $BODY$
 
 DECLARE
-	v_Cost						NUMERIC;
-	v_linenetamt				NUMERIC;
-	v_Marge 					NUMERIC;
-
+	v_Cost			NUMERIC;
+	v_linenetamt	NUMERIC;
+	v_Marge 		NUMERIC;
 BEGIN
-    v_Marge = 0.0;
+    v_Cost       = 0.0;
+    v_linenetamt = 0.0;
+    v_Marge      = 0.0;
     SELECT getTransactionCost(C_Invoiceline_ID), linenetAmt INTO v_Cost, v_linenetamt
     FROM c_Invoiceline ivl 
     WHERE ivl.c_INvoiceline_ID = p_C_InvoiceLine_ID;
@@ -23,7 +24,6 @@ BEGIN
     v_Marge = (v_linenetamt - v_Cost)/v_linenetamt;
 	RETURN round(v_Marge*100,2);
 END;
-
 
 $BODY$
   LANGUAGE plpgsql VOLATILE
