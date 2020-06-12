@@ -22,7 +22,7 @@ BEGIN
     IF (v_Cost       = 0) THEN RETURN v_Marge; END IF;
 
     v_Marge = (v_linenetamt - v_Cost)/v_linenetamt;
-	RETURN round(v_Marge*100,2);
+	RETURN round(coalesce(v_Marge, 0) * 100, 2);
 END;
 
 $BODY$
