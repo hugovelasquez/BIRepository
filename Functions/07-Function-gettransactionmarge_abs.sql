@@ -24,7 +24,7 @@ BEGIN
     IF (v_Cost = 0) THEN  RETURN v_Marge; END IF;
 
     v_Marge = (v_linenetamt - v_Cost);
-	RETURN round(v_Marge, 5);
+	RETURN round(coalesce(v_Marge,0), 5);
 END;
 
 $BODY$

@@ -26,7 +26,7 @@ IF (v_DocStatus NOT IN ('CL', 'CO') AND v_LinenetAmt = 0)
 THEN  v_Cost = 0 ; 
 END IF;
 
-RETURN round(v_Cost,4);
+RETURN round(coalesce(v_Cost, 0),4);
 
 END;
 
