@@ -15,7 +15,7 @@ BEGIN
 	WHERE ad_client_id=p_ad_client_id 
 	AND c_element_id=p_c_element_id 
     AND issummary = 'N'	
-	AND value like '%'  || p_acctids
+	AND value like p_acctids || '%'
   LOOP
 	v_acctids = v_acctids || ', ' || v_accounts.c_elementvalue_id;
   END LOOP;
