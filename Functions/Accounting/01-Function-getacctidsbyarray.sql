@@ -1,5 +1,9 @@
--- Delivers the IDs of the Account values as a string
+-- Delivers the IDs (c_elementvalue_ids) of the Account values as a string
 -- If none found, it delivers 0, which will match nothing
+-- Example:
+-- SELECT getacctidsbyarray(1000000, 1000002, ARRAY['1010101001', '1060502501', '2020201339','454', 'trtr', 'trrtgtrg']) as accidsbyarray 
+-- FROM C_Element 
+-- WHERE C_Element_ID=1000002
 CREATE OR REPLACE FUNCTION getacctidsbyarray(p_ad_client_id numeric, p_c_element_id numeric, p_acctidarray character varying[])
   RETURNS character varying AS
 $BODY$
