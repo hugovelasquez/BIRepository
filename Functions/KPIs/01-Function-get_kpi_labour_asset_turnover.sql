@@ -1,18 +1,11 @@
--- FUNCTION: adempiere.get_kpi_labour_asset_turnover(numeric, numeric, double precision, character)
-
--- DROP FUNCTION adempiere.get_kpi_labour_asset_turnover(numeric, numeric, double precision, character);
-
-CREATE OR REPLACE FUNCTION adempiere.get_kpi_labour_asset_turnover(
-	p_ad_client_id numeric,
-	p_c_element_id numeric,
-	p_year double precision,
-	p_postingtype character)
-    RETURNS numeric
-    LANGUAGE 'plpgsql'
-
-    COST 100
-    VOLATILE 
-AS $BODY$
+-- Calculates labour asset turnover for one year
+-- labour asset turnover = sales revenue / labour costs  
+-- Example:
+-- SELECT  
+-- get_kpi_labour_asset_turnover(1000000, 1000002, date_part('YEAR'::text, now()::timestamp) - 3, 'A') as "Labour Asset Turnover"
+CREATE OR REPLACE FUNCTION get_kpi_labour_asset_turnover(p_ad_client_id numeric, p_c_element_id numeric, p_year double precision, p_postingtype char)
+  RETURNS numeric AS
+$BODY$
 DECLARE
 	v_income_debit_balance numeric;   -- Balance Ingreso Debito
 	v_discount_debit_balance numeric; -- Balance Descuento Debito
@@ -26,7 +19,7 @@ BEGIN
   
   v_income_debit_balance = getamtacctbalance(
     p_year,                                                    -- Year
-    getacctidsbystring(p_ad_client_id, p_c_element_id, '501'), -- Cuentas INGRESO DE VENTAS
+    getacctidsbystring(p_ad_client_id, p_c_element_id, '501'), -- Cuentas VENTAS
     p_postingtype,                                             -- Posting Type
     -1                                                         -- Multiplier= x1
   ) ; 
@@ -42,15 +35,15 @@ BEGIN
     p_year,                                                    -- Year
     getacctidsbyarray(p_ad_client_id, p_c_element_id, 
     ARRAY[
-    '4030101001', -- Cuenta GASTOS DE VENTA - SUELDOS
-    '4030101002', -- Cuenta GASTOS DE VENTA - COMISIONES POR COBROS
-    '4030101003', -- Cuenta GASTOS DE VENTA - AGUINALDOS
-    '4030101004', -- Cuenta GASTOS DE VENTA - VACACIONES
-    '4030101005', -- Cuenta GASTOS DE VENTA - INDEMNIZACIONES
-    '4030101006', -- Cuenta GASTOS DE VENTA - BONIFICACIONES Y GRATIFICACIONES
-    '4030101017', -- Cuenta GASTOS DE VENTA - CUOTA PATRONAL ISSS
-    '4030101018', -- Cuenta GASTOS DE VENTA - CUOTA PATRONAL AFP
-    '4030101020'  -- Cuenta GASTOS DE VENTA - VIATICOS Y GASTOS DE VIAJE
+    '4030101001', -- SUELDOS
+    '4030101002', -- COMISIONES POR COBROS
+    '4030101003', -- AGUINALDOS
+    '4030101004', -- VACACIONES
+    '4030101005', -- INDEMNIZACIONES
+    '4030101006', -- BONIFICACIONES Y GRATIFICACIONES
+    '4030101017', -- CUOTA PATRONAL ISSS
+    '4030101018', -- CUOTA PATRONAL AFP
+    '4030101020'  -- VIATICOS Y GASTOS DE VIAJE
     ]),                                                        -- Cuentas Gasto Administrativo Credito
     p_postingtype,                                             -- Posting Type
     1                                                          -- Multiplier= x1
@@ -60,20 +53,20 @@ BEGIN
     p_year,                                                    -- Year
     getacctidsbyarray(p_ad_client_id, p_c_element_id, 
     ARRAY[
-    '4030102001',  -- Cuenta GASTOS DE ADMINISTRACION -  SUELDOS
-    '4030102002',  -- Cuenta GASTOS DE ADMINISTRACION -  COMISIONES
-    '4030102003',  -- Cuenta GASTOS DE ADMINISTRACION -  AGUINALDOS
-    '4030102004',  -- Cuenta GASTOS DE ADMINISTRACION -  VACACIONES
-    '4030102005',  -- Cuenta GASTOS DE ADMINISTRACION -  INDEMNIZACIONES
-    '4030102006',  -- Cuenta GASTOS DE ADMINISTRACION -  BONIFICACIONES Y GRATIFICACIONES
-    '4030102009',  -- Cuenta GASTOS DE ADMINISTRACION -  HORAS EXTRAS
-    '4030102022',  -- Cuenta GASTOS DE ADMINISTRACION -  CUOTA PATRONAL DEL ISSS
-    '4030102023',  -- Cuenta GASTOS DE ADMINISTRACION -  CUOTA PATRONAL DE AFP
-    '4030102024',  -- Cuenta GASTOS DE ADMINISTRACION -  CUOTA PATRONAL DE INSAFORP
-    '4030102026',  -- Cuenta GASTOS DE ADMINISTRACION -  VIATICOS Y GASTOS DE VIAJE
-    '4030102065',  -- Cuenta GASTOS DE ADMINISTRACION -  PRESTACIONES LABORALES
-    '4030102066',  -- Cuenta GASTOS DE ADMINISTRACION -  BACK OFFICE 2%
-    '4030102067'  -- Cuenta GASTOS DE ADMINISTRACION -  LOGISTICA 7%
+    '4030102001',  -- SUELDOS
+    '4030102002',  -- COMISIONES
+    '4030102003',  -- AGUINALDOS
+    '4030102004',  -- VACACIONES
+    '4030102005',  -- INDEMNIZACIONES
+    '4030102006',  -- BONIFICACIONES Y GRATIFICACIONES
+    '4030102009',  -- HORAS EXTRAS
+    '4030102022',  -- CUOTA PATRONAL DEL ISSS
+    '4030102023',  -- CUOTA PATRONAL DE AFP
+    '4030102024',  -- CUOTA PATRONAL DE INSAFORP
+    '4030102026',  -- VIATICOS Y GASTOS DE VIAJE
+    '4030102065',  -- PRESTACIONES LABORALES
+    '4030102066',  -- BACK OFFICE 2%
+    '4030102067'  -- LOGISTICA 7%
     ]),                                                       -- Cuentas Gasto Administrativo Debito
     p_postingtype,                                            -- Posting Type
     1                                                         -- Multiplier= x1
@@ -90,7 +83,8 @@ BEGIN
   RETURN ROUND(COALESCE(v_labour_asset_turnover, 0), 2);
 END;
 
-$BODY$;
-
-ALTER FUNCTION adempiere.get_kpi_labour_asset_turnover(numeric, numeric, double precision, character)
-    OWNER TO adempiere;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION get_kpi_labour_asset_turnover(numeric, numeric, double precision, char)
+  OWNER TO adempiere;
