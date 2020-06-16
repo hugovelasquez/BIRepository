@@ -1,6 +1,12 @@
 -- Delivers for one specified year the balance sum (dr-cr)for the specified Accoint IDs and posting type 
 -- Posting Types= A for Actual, B for Budget, S for Statistical
 -- Multiplier <1 negates the result. 
+-- Example:
+-- SELECT getamtacctbalance(
+-- date_part('YEAR'::text, now()::timestamp) - 0, -- Year
+-- getacctidsbystring(1000000, 1000002, '501'),   -- Cuentas REBAJAS Y DEVOLUCIONES SOBRE COMPRAS
+-- 'A',                                           -- Posting Type
+-- -1  ) ;                                        -- Multiplier= x -1
 CREATE OR REPLACE FUNCTION getamtacctbalance(p_year double precision, p_acctids character varying, p_postingtype char, multiplier numeric)
   RETURNS numeric AS
 $BODY$

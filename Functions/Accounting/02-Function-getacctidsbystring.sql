@@ -1,5 +1,7 @@
 -- Delivers the IDs of the Account values as a string
 -- If none found, it delivers 0, which will match nothing
+-- Example:
+-- SELECT getacctidsbystring(1000000, 1000002, '501') as accidsbystring 
 CREATE OR REPLACE FUNCTION getacctidsbystring(p_ad_client_id numeric, p_c_element_id numeric, p_acctids character varying)
   RETURNS character varying AS
 $BODY$

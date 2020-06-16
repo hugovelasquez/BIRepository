@@ -1,5 +1,10 @@
 -- Delivers for one specified year the amtaactdr sum for the specified Accoint IDs and posting type 
 -- Posting Types= A for Actual, B for Budget, S for Statistical 
+-- Example:
+-- SELECT getamtacctcr(
+--date_part('YEAR'::text, now()::timestamp) - 0,  -- This Year - 0
+--getacctidsbystring(1000000, 1000002, '502')  	-- Cuentas REBAJAS Y DEVOLUCIONES SOBRE COMPRAS
+--, 'A')                                        -- Posting type Actual
 CREATE OR REPLACE FUNCTION getamtacctdr(p_year double precision, p_acctids character varying, p_postingtype char)
   RETURNS numeric AS
 $BODY$
