@@ -1,6 +1,7 @@
 -- Delivers for one specified year the balance sum (dr-cr)for the specified Accoint IDs and posting type 
 -- Posting Types= A for Actual, B for Budget, S for Statistical
 -- Multiplier <1 negates the result. 
+-- prefix "p_" denotes a parameter, "v_" denotes a variable
 -- Example:
 -- SELECT getamtacctbalance(
 -- date_part('YEAR'::text, now()::timestamp) - 0, -- Year
