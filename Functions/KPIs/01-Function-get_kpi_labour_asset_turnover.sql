@@ -7,31 +7,31 @@ CREATE OR REPLACE FUNCTION get_kpi_labour_asset_turnover(p_ad_client_id numeric,
   RETURNS numeric AS
 $BODY$
 DECLARE
-	v_income_debit_balance numeric;   -- Balance Ingreso Debito
-	v_discount_debit_balance numeric; -- Balance Descuento Debito
-	v_administrative_expense_credit_balance numeric; -- Balance Gasto Administrativo Credito
-	v_administrative_expense_debit_balance numeric;  -- Balance Gasto Administrativo Debito
-	v_sales_revenue numeric;  -- Balance Ingreso Debito - Balance Descuento Debito
-	v_labour_costs numeric;   -- Balance Gasto Administrativo Credito + Balance Gasto Administrativo Debito
-	v_labour_asset_turnover numeric;  -- Return variable = sales revenue / labour costs
+	v_income_balance numeric;   				-- Balance Ingreso Ventas
+	v_discount_balance numeric; 				-- Balance Descuento Ventas
+	v_sales_expense_balance numeric;			-- Balance Gasto Ventas
+	v_administrative_expense_balance numeric;  	-- Balance Gasto Administrativo 
+	v_sales_revenue numeric;  					-- Balance Ingreso Ventas - Balance Descuento Ventas
+	v_labour_costs numeric;   					-- Balance Gasto Ventas + Balance Gasto Administrativo
+	v_labour_asset_turnover numeric;  			-- Return variable = sales revenue / labour costs
 BEGIN
   v_labour_asset_turnover = 0;
   
-  v_income_debit_balance = getamtacctbalance(
+  v_income_balance = getamtacctbalance(
     p_year,                                                    -- Year
     getacctidsbystring(p_ad_client_id, p_c_element_id, '501'), -- Cuentas VENTAS
     p_postingtype,                                             -- Posting Type
     -1                                                         -- Multiplier= x1
   ) ; 
   
-  v_discount_debit_balance = getamtacctbalance(
+  v_discount_balance = getamtacctbalance(
     p_year,                                                    -- Year
-    getacctidsbystring(p_ad_client_id, p_c_element_id, '502'), -- Cuentas REBAJAS Y DEVOLUCIONES SOBRE COMPRAS
+    getacctidsbystring(p_ad_client_id, p_c_element_id, '502'), -- Cuentas REBAJAS Y DEVOLUCIONES VENTAS ("sobre Compras")
     p_postingtype,                                             -- Posting Type
     1                                                          -- Multiplier= x1
   ) ; 
   
-  v_administrative_expense_credit_balance = getamtacctbalance(
+  v_sales_expense_balance = getamtacctbalance(
     p_year,                                                    -- Year
     getacctidsbyarray(p_ad_client_id, p_c_element_id, 
     ARRAY[
@@ -44,12 +44,12 @@ BEGIN
     '4030101017', -- CUOTA PATRONAL ISSS
     '4030101018', -- CUOTA PATRONAL AFP
     '4030101020'  -- VIATICOS Y GASTOS DE VIAJE
-    ]),                                                        -- Cuentas Gasto Administrativo Credito
+    ]),                                                        -- Cuentas GASTO VENTAS
     p_postingtype,                                             -- Posting Type
     1                                                          -- Multiplier= x1
   ); 
 
-  v_administrative_expense_debit_balance = getamtacctbalance(
+  v_administrative_expense_balance = getamtacctbalance(
     p_year,                                                    -- Year
     getacctidsbyarray(p_ad_client_id, p_c_element_id, 
     ARRAY[
@@ -66,14 +66,14 @@ BEGIN
     '4030102026',  -- VIATICOS Y GASTOS DE VIAJE
     '4030102065',  -- PRESTACIONES LABORALES
     '4030102066',  -- BACK OFFICE 2%
-    '4030102067'  -- LOGISTICA 7%
-    ]),                                                       -- Cuentas Gasto Administrativo Debito
+    '4030102067'   -- LOGISTICA 7%
+    ]),                                                       -- Cuentas GASTO ADMINISTRACION 
     p_postingtype,                                            -- Posting Type
     1                                                         -- Multiplier= x1
     ) ; 
 
-    v_sales_revenue = v_income_debit_balance - v_discount_debit_balance; -- Balance Ingreso Debito - Balance Descuento Debito
-    v_labour_costs  = v_administrative_expense_credit_balance + v_administrative_expense_debit_balance;  -- Balance Gasto Administrativo Credito + Balance Gasto Administrativo Debito
+    v_sales_revenue = v_income_balance - v_discount_balance; 						-- Balance Ingreso Ventas - Balance Descuento Ventas
+    v_labour_costs  = v_sales_expense_balance + v_administrative_expense_balance;  	-- Balance Gasto Ventas + Balance Gasto Administrativo 
 
     IF (v_labour_costs IS NULL OR v_labour_costs=0)
     THEN v_labour_asset_turnover = 0;

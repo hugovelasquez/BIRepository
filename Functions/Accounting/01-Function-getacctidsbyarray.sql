@@ -28,7 +28,7 @@ BEGIN
   v_acctids = replace(v_acctids,',)','');
 
   IF (v_acctids IS NULL OR length(v_acctids)<4)
-  THEN v_acctids = '(0)';
+  THEN v_acctids = '0';
   END IF;
   
   RETURN v_acctids;
