@@ -1,10 +1,10 @@
 -- Example
 -- SELECT 
--- getamtacctdrmonthly(
+-- getamtacctdr_monthly(
 -- date_part('YEAR'::text, now()::timestamp) - 1, 
 -- getacctidsincomesales(1000000, 1000002), 
 -- 'A')
-CREATE OR REPLACE FUNCTION getamtacctdrmonthly(p_year double precision, p_acctids character varying, p_postingtype char)
+CREATE OR REPLACE FUNCTION getamtacctdr_monthly(p_year double precision, p_acctids character varying, p_postingtype char)
   RETURNS numeric[] AS
 $BODY$
 DECLARE
@@ -45,5 +45,5 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION getamtacctdrmonthly(double precision, character varying, char)
+ALTER FUNCTION getamtacctdr_monthly(double precision, character varying, char)
   OWNER TO adempiere;

@@ -2,11 +2,11 @@
 -- Posting Types= A for Actual, B for Budget, S for Statistical 
 -- prefix "p_" denotes a parameter, "v_" denotes a variable
 -- Example:
--- SELECT getamtacctdr(
+-- SELECT getamtacctdr_year(
 --date_part('YEAR'::text, now()::timestamp) - 0,  -- This Year - 0
 --getacctidsbystring(1000000, 1000002, '501')  	-- Cuentas INGRESOS VENTAS
 --, 'A')                                        -- Posting type Actual
-CREATE OR REPLACE FUNCTION getamtacctdr(p_year double precision, p_acctids character varying, p_postingtype char)
+CREATE OR REPLACE FUNCTION getamtacctdr_year(p_year double precision, p_acctids character varying, p_postingtype char)
   RETURNS numeric AS
 $BODY$
 DECLARE
@@ -28,5 +28,5 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION getamtacctdr(double precision, character varying, char)	-- definition of footprint (how to show function in e.g. PgAdmin tree)
+ALTER FUNCTION getamtacctdr_year(double precision, character varying, char)	-- definition of footprint (how to show function in e.g. PgAdmin tree)
   OWNER TO adempiere;

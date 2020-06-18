@@ -17,28 +17,28 @@ DECLARE
 BEGIN
   v_labour_asset_turnover = 0;
   
-  v_income_balance = getamtacctbalance(
+  v_income_balance = getamtacctbalance_year(
     p_year,                                                  -- Year
     getacctidsincomesales(p_ad_client_id, p_c_element_id), 	 -- Cuentas Ingresos VENTAS
     p_postingtype,                                           -- Posting Type
     -1                                                       -- Multiplier= x1
   ) ; 
   
-  v_discount_balance = getamtacctbalance(
+  v_discount_balance = getamtacctbalance_year(
     p_year,                                                  -- Year
     getacctidsdiscountsales(p_ad_client_id, p_c_element_id), -- Cuentas REBAJAS Y DEVOLUCIONES VENTAS ("sobre Compras")
     p_postingtype,                                           -- Posting Type
     1                                                        -- Multiplier= x1
   ) ; 
   
-  v_sales_expense_balance = getamtacctbalance(
+  v_sales_expense_balance = getamtacctbalance_year(
     p_year,                                                  -- Year
     getacctidsexpensessales(p_ad_client_id, p_c_element_id), -- Cuentas GASTO VENTAS    
     p_postingtype,                                           -- Posting Type
     1                                                        -- Multiplier= x1
   ); 
 
-  v_administrative_expense_balance = getamtacctbalance(
+  v_administrative_expense_balance = getamtacctbalance_year(
     p_year,                                                  -- Year
     getacctidsexpensesadmin(p_ad_client_id, p_c_element_id), -- Cuentas GASTO ADMINISTRACION      
     p_postingtype,                                           -- Posting Type
