@@ -1,4 +1,4 @@
--- Delivers the values of sales expenses accounts as an array
+-- Delivers the ids of sales expenses accounts as string
 -- Manual creation of variables necessary if more values are needed 
 -- Example:
 -- SELECT getacctidsexpensessales(1000000, 1000002)

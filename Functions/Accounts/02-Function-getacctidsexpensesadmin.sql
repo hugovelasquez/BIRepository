@@ -1,4 +1,4 @@
--- Delivers the values of admin expenses accounts as an array
+-- Delivers the ids of admin expenses accounts as string
 -- Manual creation of variables necessary if more values are needed 
 -- Example:
 -- SELECT getacctidsexpensesadmin()

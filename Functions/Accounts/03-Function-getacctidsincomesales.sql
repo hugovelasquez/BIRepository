@@ -1,4 +1,4 @@
--- Delivers the value of sales income accounts as a string
+-- Delivers the ids of sales income accounts as string
 -- Example:
 -- SELECT getacctidsincomesales()
 CREATE OR REPLACE FUNCTION getacctidsincomesales(p_ad_client_id numeric, p_c_element_id numeric)

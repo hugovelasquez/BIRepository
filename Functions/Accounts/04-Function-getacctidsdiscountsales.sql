@@ -1,4 +1,4 @@
--- Delivers the value of sales discount accounts as a string
+-- Delivers the ids of sales discount accounts as string
 -- Example:
 -- SELECT getacctidsdiscountsales()
 CREATE OR REPLACE FUNCTION getacctidsdiscountsales(p_ad_client_id numeric, p_c_element_id numeric)
