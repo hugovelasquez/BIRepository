@@ -1,5 +1,5 @@
 -- Delivers the values of sales expenses accounts as an array
--- Manual creation of variables necessary if more than 15 values are needed 
+-- Manual creation of variables necessary if more values are needed 
 -- Example:
 -- SELECT getacctidsexpensessales(1000000, 1000002)
 CREATE OR REPLACE FUNCTION getacctidsexpensessales(p_ad_client_id numeric, p_c_element_id numeric)

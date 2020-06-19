@@ -1,5 +1,5 @@
 -- Delivers the values of admin expenses accounts as an array
--- Manual creation of variables necessary if more than 15 values are needed 
+-- Manual creation of variables necessary if more values are needed 
 -- Example:
 -- SELECT getacctidsexpensesadmin()
 CREATE OR REPLACE FUNCTION getacctidsexpensesadmin(p_ad_client_id numeric, p_c_element_id numeric)
