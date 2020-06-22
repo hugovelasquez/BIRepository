@@ -2,10 +2,10 @@
 -- Accounting Type = {isCogs, isInventory, isLabourCostAdministration, isLabourCostDirect, isRevenueOperation}
 -- Example
 --SELECT sum(amtacctdr), sum(amtacctcr), sum(amtacctdr)-sum(amtacctcr)
--- FROM rv_factacct_summary
+-- FROM rv_fact_acct_summary
 -- WHERE dateacctyear BETWEEN to_date ('01/01/2015','dd/MM/yyyy') AND  to_date ('31/05/2020','dd/MM/yyyy')
 -- AND isRevenueOperation = 'Y'
-CREATE VIEW rv_factacct_summary AS 
+CREATE VIEW rv_fact_acct_summary AS 
 
 SELECT
   f.ad_client_id,
@@ -16,7 +16,7 @@ SELECT
   sum(f.amtacctcr) AS amtacctcr,
   ev.isCogs, 
   ev.isInventory,
-  ev.isLabourCostAdministracion,
+  ev.isLabourCostAdministration,
   ev.isLabourCostDirect,
   ev.isRevenueOperation,
   to_char(date_trunc('MONTH',f.dateacct)::date::timestamp with time zone, 'dd/mm/yyyy'::text) AS dateacctformatted,
@@ -52,5 +52,5 @@ GROUP BY f.ad_client_id,
   to_char(f.dateacct::date::timestamp with time zone, 'YYYY'::text);
 
 
-ALTER TABLE rv_factacct_summary
+ALTER TABLE rv_fact_acct_summary
   OWNER TO adempiere;
