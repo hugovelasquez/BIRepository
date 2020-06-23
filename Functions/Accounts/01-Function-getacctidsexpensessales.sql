@@ -9,18 +9,21 @@ DECLARE
 	v_return  character varying;
 	v_acctids character varying[];
 	
-	v_acctvalue1  character varying = '4030101001';		-- SUELDOS
-	v_acctvalue2  character varying = '4030101002';		-- COMISIONES POR COBROS;			
-	v_acctvalue3  character varying = '4030101003';		-- AGUINALDOS
-	v_acctvalue4  character varying = '4030101004';		-- VACACIONES
-	v_acctvalue5  character varying = '4030101005';		-- INDEMNIZACIONES 
-	v_acctvalue6  character varying = '4030101006';		-- BONIFICACIONES Y GRATIFICACIONES
-	v_acctvalue7  character varying = '4030101017';		-- CUOTA PATRONAL ISSS
-	v_acctvalue8  character varying = '4030101018';		-- CUOTA PATRONAL AFP
-	v_acctvalue9  character varying = '4030101020';		-- VIATICOS Y GASTOS DE VIAJE
+	v_acctvalue1   character varying = '4030101001';		-- SUELDOS
+	v_acctvalue2   character varying = '4030101002';		-- COMISIONES POR COBROS;			
+	v_acctvalue3   character varying = '4030101003';		-- AGUINALDOS
+	v_acctvalue4   character varying = '4030101004';		-- VACACIONES
+	v_acctvalue5   character varying = '4030101005';		-- INDEMNIZACIONES 
+	v_acctvalue6   character varying = '4030101006';		-- BONIFICACIONES Y GRATIFICACIONES
+	v_acctvalue7   character varying = '4030101017';		-- CUOTA PATRONAL ISSS
+	v_acctvalue8   character varying = '4030101018';		-- CUOTA PATRONAL AFP
+	--v_acctvalue8   character varying = '4030101020';		-- VIATICOS Y GASTOS DE VIAJE   
+	v_acctvalue9   character varying = '4030101022';		-- SEGUROS
+	v_acctvalue10  character varying = '4030101023';		-- IMPUESTOS FISCALES Y MUNICIPALES
+	v_acctvalue11  character varying = '4030101024';		-- PAPELERIA Y UTILES
 BEGIN
 					
-	v_acctids =	ARRAY[v_acctvalue1,v_acctvalue2,v_acctvalue3,v_acctvalue4,v_acctvalue5,v_acctvalue6,v_acctvalue7,v_acctvalue8,v_acctvalue9];
+	v_acctids =	ARRAY[v_acctvalue1,v_acctvalue2,v_acctvalue3,v_acctvalue4,v_acctvalue5,v_acctvalue6,v_acctvalue7,v_acctvalue8,v_acctvalue9,v_acctvalue10,v_acctvalue11];
 
 	v_return = getacctidsbyarray(p_ad_client_id, p_c_element_id, v_acctids);
 	

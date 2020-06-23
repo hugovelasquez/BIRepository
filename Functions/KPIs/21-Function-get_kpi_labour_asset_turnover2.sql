@@ -1,5 +1,5 @@
 -- Calculates labour asset turnover for one year
--- labour asset turnover = sales revenue / costs  
+-- labour asset turnover = sales revenue / labour costs  
 -- Example:
 -- SELECT  
 -- get_kpi_labour_asset_turnover2(1000000, 1000002, date_part('YEAR'::text, now()::timestamp) - 1, 'A') as "Labour Asset Turnover"
@@ -8,52 +8,43 @@ CREATE OR REPLACE FUNCTION get_kpi_labour_asset_turnover2(p_ad_client_id numeric
 $BODY$
 DECLARE
   v_revenue_op_field    CONSTANT character varying = 'isrevenueoperation';
-  v_cogs_field          CONSTANT character varying = 'iscogs';
   v_labour_direct_field CONSTANT character varying = 'islabourcostdirect';
   v_labour_admin_field  CONSTANT character varying = 'islabourcostadministration';
 
-  v_sales_revenue         numeric; -- Ingreso Ventas
-  v_cogs                  numeric; -- Costo Ventas
-  v_labour_costs_direct   numeric; -- Gasto Labor directo 
-  v_labour_costs_admin    numeric; -- Gasto Labor Administrativo 
-  v_costs                 numeric; -- Costo Ventas + Gasto Labor
-  v_labour_asset_turnover numeric; -- Return = sales revenue / costs
+  v_sales_revenue         	numeric; -- Ingreso Ventas
+  v_labour_costs_direct   	numeric; -- Gasto Labor directo 
+  v_labour_costs_admin    	numeric; -- Gasto Labor Administrativo 
+  v_labour_costs          	numeric; -- Gasto Labor directo + Gasto Labor Administrativo
+  v_labour_asset_turnover 	numeric; -- Return = sales revenue / labour costs
 BEGIN
   v_labour_asset_turnover = 0;
   
   v_sales_revenue = getamtacctbalance_year2(
     p_year,                                         -- Year
-    v_revenue_op_field, 	                        -- Revenue Operation
+    v_revenue_op_field, 	                        -- Revenue Operation (Cuentas Ingresos VENTAS - Cuentas REBAJAS Y DEVOLUCIONES = '501' - '502')
     p_postingtype,                                  -- Posting Type
     -1                                              -- Multiplier= x1
   ); 
   
-  v_cogs = getamtacctbalance_year2(
-    p_year,                                         -- Year
-    v_cogs_field,                                   -- Cost of Goods Sold   
-    p_postingtype,                                  -- Posting Type
-    1                                               -- Multiplier= x1
-  ); 
-
   v_labour_costs_direct = getamtacctbalance_year2(
     p_year,                                         -- Year
-    v_labour_direct_field,                          -- Cost Labour Direct
+    v_labour_direct_field,                          -- Cost Labour Direct (Cuentas GASTO VENTAS + Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
     p_postingtype,                                  -- Posting Type
     1                                               -- Multiplier= x1
     );  
 
   v_labour_costs_admin = getamtacctbalance_year2(
     p_year,                                         -- Year
-    v_labour_admin_field,                           -- Cost Labour Admin   
+    v_labour_admin_field,                           -- Cost Labour Admin  (n/a) 
     p_postingtype,                                  -- Posting Type
     1                                               -- Multiplier= x1
     );                                                                                 
 																						
-    v_costs  = v_cogs + v_labour_costs_direct + v_labour_costs_admin;
+    v_labour_costs  = v_labour_costs_direct + v_labour_costs_admin;
 
-    IF (v_costs IS NULL OR v_costs=0)
+    IF (v_labour_costs IS NULL OR v_labour_costs=0)
     THEN v_labour_asset_turnover = 0;
-    ELSE v_labour_asset_turnover = v_sales_revenue / v_costs;
+    ELSE v_labour_asset_turnover = v_sales_revenue / v_labour_costs;
     END IF;
 
   RETURN ROUND(COALESCE(v_labour_asset_turnover, 0), 2);
