@@ -31,7 +31,7 @@ BEGIN
   
   v_sales_revenue = getamtacctbalance_year2(
     p_year,                                         -- Year
-    v_revenue_op_field, 	                        -- Revenue Operation
+    v_revenue_op_field, 	                        -- Revenue Operation (Cuentas Ingresos VENTAS - Cuentas REBAJAS Y DEVOLUCIONES = '501' - '502')
     p_postingtype,                                  -- Posting Type
     -1                                              -- Multiplier= x1
   ); 
@@ -39,14 +39,14 @@ BEGIN
 
   v_inventory_costs_prev_year = getamtacctbalance_year2(
     p_year - 1,                                         -- Year - 1
-    v_inventory_field,                          		-- Cost Inventory previous year
+    v_inventory_field,                          		-- Cost Inventory previous year (Cuentas Inventario AGRICOLA + INDUSTRIAL + OTRAS MERCADERIAS + CONSIGNACION + ORDENES PRODUCCION + ADMINISTRATIVA = '10601' + '10602' + '10603' + '10605' + '10606' + '10607')
     p_postingtype,                                  	-- Posting Type
     1                                               	-- Multiplier= x1
     );  
 
   v_inventory_costs_curr_year = getamtacctbalance_year2(
     p_year,                                         	-- Year 
-    v_inventory_field,                          		-- Cost Inventory current year
+    v_inventory_field,                          		-- Cost Inventory current year (Cuentas Inventario AGRICOLA + INDUSTRIAL + OTRAS MERCADERIAS + CONSIGNACION + ORDENES PRODUCCION + ADMINISTRATIVA = '10601' + '10602' + '10603' + '10605' + '10606' + '10607')
     p_postingtype,                                  	-- Posting Type
     1                                               	-- Multiplier= x1
     );                                                                                  

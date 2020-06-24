@@ -9,12 +9,10 @@ $BODY$
 DECLARE
   v_revenue_op_field    CONSTANT character varying = 'isrevenueoperation';
   v_labour_direct_field CONSTANT character varying = 'islabourcostdirect';
-  v_labour_admin_field  CONSTANT character varying = 'islabourcostadministration';
 
   v_sales_revenue         	numeric; -- Ingreso Ventas
   v_labour_costs_direct   	numeric; -- Gasto Labor directo 
-  v_labour_costs_admin    	numeric; -- Gasto Labor Administrativo 
-  v_labour_costs          	numeric; -- Gasto Labor directo + Gasto Labor Administrativo
+  v_labour_costs          	numeric; -- Gasto Labor directo total
   v_labour_asset_turnover 	numeric; -- Return = sales revenue / labour costs
 BEGIN
   v_labour_asset_turnover = 0;
@@ -28,19 +26,13 @@ BEGIN
   
   v_labour_costs_direct = getamtacctbalance_year2(
     p_year,                                         -- Year
-    v_labour_direct_field,                          -- Cost Labour Direct (Cuentas GASTO VENTAS + Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    v_labour_direct_field,                          -- Cost Labour Direct (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
     p_postingtype,                                  -- Posting Type
     1                                               -- Multiplier= x1
     );  
-
-  v_labour_costs_admin = getamtacctbalance_year2(
-    p_year,                                         -- Year
-    v_labour_admin_field,                           -- Cost Labour Admin  (n/a) 
-    p_postingtype,                                  -- Posting Type
-    1                                               -- Multiplier= x1
-    );                                                                                 
+                              
 																						
-    v_labour_costs  = v_labour_costs_direct + v_labour_costs_admin;
+    v_labour_costs  = v_labour_costs_direct;
 
     IF (v_labour_costs IS NULL OR v_labour_costs=0)
     THEN v_labour_asset_turnover = 0;
