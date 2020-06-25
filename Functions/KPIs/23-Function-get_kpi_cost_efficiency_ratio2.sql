@@ -5,7 +5,6 @@
 -- Example:
 -- SELECT  
 -- get_kpi_cost_efficiency_ratio2(1000000, 1000002, date_part('YEAR'::text, now()::timestamp) - 1, 'A') as "Cost Efficiency Ratio"
--- #################  STILL MISSING FIELDS AND VARIABLES ###############--
 CREATE OR REPLACE FUNCTION adempiere.get_kpi_cost_efficiency_ratio2(
 	p_ad_client_id numeric,
 	p_c_element_id numeric,
@@ -18,25 +17,26 @@ CREATE OR REPLACE FUNCTION adempiere.get_kpi_cost_efficiency_ratio2(
     VOLATILE 
 AS $BODY$
 DECLARE
-  v_revenue_op_field    CONSTANT character varying = 'isrevenueoperation'; 
-  v_cogs_field          CONSTANT character varying = 'iscogs';  
-  v_labour_direct_field CONSTANT character varying = 'islabourcostdirect';
-  -- Missing v_otheroperatingexpenses_field
-  -- Missing v_depreciation_field t.b.d.
+  v_revenue_op_field    				CONSTANT character varying = 'isrevenueoperation'; 
+  v_cogs_field          				CONSTANT character varying = 'iscogs';  
+  v_labour_direct_field 				CONSTANT character varying = 'islabourcostdirect';
+  v_other_operating_expenses_field		CONSTANT character varying = 'isotheroperatingexpenses';
+  v_depreciation_field 					CONSTANT character varying = 'isdepreciation';
 
 
   v_sales_revenue_prev_year         			numeric; -- Ingreso Ventas año previo
-  v_total_operating_costs_prev_year	         	numeric; -- Gasto total de operación año previo (Costos de Ventas + Gasto Labor directa + Other operating expenses + depreciation t.b.d.)
+  v_total_operating_costs_prev_year	         	numeric; -- Gasto total de operación año previo (Costos de Ventas + Gasto Labor directa + Otros gastos operacionales + Depreciación)
   v_cogs_prev_year         						numeric; -- Costos de Ventas año previo
   v_labour_costs_direct_prev_year	   			numeric; -- Gasto Labor directa año previo
-  -- Missing v_otheroperatingexpenses_prev_year
-  -- Missing v_depreciation_prev_year t.b.d.
+  v_other_operating_expenses_prev_year			numeric; -- Otros gastos operacionales año previo
+  v_depreciation_prev_year 						numeric; -- Depreciación año previo
+  
   v_sales_revenue_curr_year         			numeric; -- Ingreso Ventas año actual
-  v_total_operating_costs_curr_year	         	numeric; -- Gasto total de operación año actual (Costos de Ventas + Gasto Labor directa + Other operating expenses + depreciation t.b.d.)
+  v_total_operating_costs_curr_year	         	numeric; -- Gasto total de operación año actual (Costos de Ventas + Gasto Labor directa + Otros gastos operacionales + Depreciación)
   v_cogs_curr_year         						numeric; -- Costos de Ventas año actual
   v_labour_costs_direct_curr_year	   			numeric; -- Gasto Labor directa año actual
-  -- Missing v_otheroperatingexpenses_curr_year
-  -- Missing v_depreciation_curr_year t.b.d.
+  v_other_operating_expenses_curr_year			numeric; -- Otros gastos operacionales año actual
+  v_depreciation_curr_year 						numeric; -- Depreciación año actual
   
   v_actual_operating_costs 	         			numeric; -- Gasto total de operación actual ( = Gasto total de operación año actual )	
   v_expected_operating_costs 	         		numeric; -- Gasto total de operación esperado ( = Gasto total de operación año previo x Ingreso Ventas año actual / Ingreso Ventas año previo )
@@ -86,9 +86,36 @@ BEGIN
     1                                               			-- Multiplier= x1
     );  
 	
+  v_other_operating_expenses_prev_year = getamtacctbalance_year2(
+    p_year - 1,                                         		-- Year - 1
+    v_other_operating_expenses_field,                          	-- Other operating expenses (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    p_postingtype,                                  			-- Posting Type
+    1                                               			-- Multiplier= x1
+    );  
 
-    v_total_operating_costs_curr_year  = v_cogs_curr_year + v_labour_costs_direct_curr_year;
-	v_total_operating_costs_prev_year = v_cogs_prev_year + v_labour_costs_direct_prev_year;
+  v_other_operating_expenses_curr_year = getamtacctbalance_year2(
+    p_year,   		                                    		-- Year 
+    v_other_operating_expenses_field,                          	-- Other operating expenses (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    p_postingtype,                                  			-- Posting Type
+    1                                               			-- Multiplier= x1
+    );  
+	
+  v_depreciation_prev_year = getamtacctbalance_year2(
+    p_year - 1,                                         		-- Year - 1
+    v_depreciation_field,                          				-- Depreciaciones (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    p_postingtype,                                  			-- Posting Type
+    1                                               			-- Multiplier= x1
+    );  
+
+  v_depreciation_curr_year = getamtacctbalance_year2(
+    p_year,   		                                    		-- Year 
+    v_depreciation_field,                          				-- Depreciaciones (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    p_postingtype,                                  			-- Posting Type
+    1                                               			-- Multiplier= x1
+    );  	
+
+    v_total_operating_costs_curr_year  = v_cogs_curr_year + v_labour_costs_direct_curr_year + v_other_operating_expenses_curr_year + v_depreciation_curr_year;	
+	v_total_operating_costs_prev_year = v_cogs_prev_year + v_labour_costs_direct_prev_year + v_other_operating_expenses_prev_year + v_depreciation_prev_year;
 	
 	v_actual_operating_costs = v_total_operating_costs_curr_year;
 	IF (v_sales_revenue_prev_year IS NULL OR v_sales_revenue_prev_year=0)

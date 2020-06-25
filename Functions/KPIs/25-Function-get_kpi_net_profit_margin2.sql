@@ -5,7 +5,6 @@
 -- Example:
 -- SELECT  
 -- get_kpi_net_profit_margin2(1000000, 1000002, date_part('YEAR'::text, now()::timestamp) - 1, 'A') as "Net Profit Margin2 (%)"
--- #################  STILL MISSING FIELDS AND VARIABLES ###############--
 CREATE OR REPLACE FUNCTION adempiere.get_kpi_net_profit_margin2(
 	p_ad_client_id numeric,
 	p_c_element_id numeric,
@@ -18,24 +17,24 @@ CREATE OR REPLACE FUNCTION adempiere.get_kpi_net_profit_margin2(
     VOLATILE 
 AS $BODY$
 DECLARE
-  v_revenue_op_field    CONSTANT character varying = 'isrevenueoperation'; 
-  v_cogs_field          CONSTANT character varying = 'iscogs';  
-  v_labour_direct_field CONSTANT character varying = 'islabourcostdirect';
-  -- Missing v_otheroperatingexpenses_field
-  -- Missing v_depreciation_field t.b.d.
-  -- Missing v_finance_expenses_field
-  -- Missing v_taxes_field
+  v_revenue_op_field    				CONSTANT character varying = 'isrevenueoperation'; 
+  v_cogs_field          				CONSTANT character varying = 'iscogs';  
+  v_labour_direct_field 				CONSTANT character varying = 'islabourcostdirect';
+  v_other_operating_expenses_field		CONSTANT character varying = 'isotheroperatingexpenses';
+  v_depreciation_field 					CONSTANT character varying = 'isdepreciation';
+  v_finance_expenses_field				CONSTANT character varying = 'isfinanceexpenses';
+  v_taxes_field							CONSTANT character varying = 'istaxes';
 
-  v_sales_revenue         			numeric; -- Ingreso Ventas año actual
-  v_cogs         					numeric; -- Costos de Ventas año actual
-  v_labour_costs_direct	   			numeric; -- Gasto Labor directa año actual
-  -- Missing v_other_operating_expenses
-  -- Missing v_depreciation t.b.d.
-  -- Missing v_finance_expenses
-  -- Missing v_taxes
+  v_sales_revenue         			numeric; -- Ingreso Ventas 
+  v_cogs         					numeric; -- Costos de Ventas 
+  v_labour_costs_direct	   			numeric; -- Gasto Labor directa 
+  v_other_operating_expenses		numeric; -- Otros gastos operacionales 
+  v_depreciation 					numeric; -- Depreciación
+  v_finance_expenses				numeric; -- Gastos financieros 
+  v_taxes		 					numeric; -- Impuestos
   
-  v_net_profit 	         			numeric; -- Ganancia neta( = sales revenue - cogs - labour cost direct - other operating expeses - depreciation t.b.d. - finance expenses - taxes)
-  v_net_profit_margin	         	numeric; -- Margen de Ganancia neta ( = net_profit / sales revenue)
+  v_net_profit 	         			numeric; -- Ganancia Neta( = sales revenue - cogs - labour cost direct - other operating expeses - depreciation - finance expenses - taxes)
+  v_net_profit_margin	         	numeric; -- Margen de Ganancia Neta ( = net_profit / sales revenue)
 BEGIN
   v_net_profit_margin = 0;
    
@@ -60,8 +59,35 @@ BEGIN
     1                                               	-- Multiplier= x1
     );  
 	
+  v_other_operating_expenses = getamtacctbalance_year2(
+    p_year,   		                                    	-- Year 
+    v_other_operating_expenses_field,                       -- Other operating expenses (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    p_postingtype,                                  		-- Posting Type
+    1                                               		-- Multiplier= x1
+    ); 
+	
+  v_depreciation = getamtacctbalance_year2(
+    p_year,   		                                    	-- Year 
+    v_depreciation_field,                          			-- Depreciaciones (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    p_postingtype,                                  		-- Posting Type
+    1                                               		-- Multiplier= x1
+    );  
 
-    v_net_profit  = v_sales_revenue - v_cogs - v_labour_costs_direct;     --  - v_other_operating_expenses - v_depreciation - v_finance_expenses - v_taxes;
+  v_finance_expenses = getamtacctbalance_year2(
+    p_year,   		                                    	-- Year 
+    v_finance_expenses_field,                          		-- Gastos financieros (Cuentas GASTOS FINANCIEROS = '40302')
+    p_postingtype,                                  		-- Posting Type
+    1                                               		-- Multiplier= x1
+    );  	
+	
+  v_taxes = getamtacctbalance_year2(
+    p_year,   		                                    	-- Year 
+    v_taxes_field,                          				-- Impuestos (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
+    p_postingtype,                                  		-- Posting Type
+    1                                               		-- Multiplier= x1
+    );  	
+	
+    v_net_profit  = v_sales_revenue - v_cogs - v_labour_costs_direct - v_other_operating_expenses - v_depreciation - v_finance_expenses - v_taxes;
 	
 
     IF (v_sales_revenue IS NULL OR v_sales_revenue=0)
