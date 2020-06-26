@@ -23,7 +23,7 @@ DECLARE
   v_other_operating_expenses_field		CONSTANT character varying = 'isotheroperatingexpenses';
   v_depreciation_field 					CONSTANT character varying = 'isdepreciation';
   v_finance_expenses_field				CONSTANT character varying = 'isfinanceexpenses';
-  v_taxes_field							CONSTANT character varying = 'istaxes';
+  v_taxes_field							CONSTANT character varying = 'istaxaccount';
 
   v_sales_revenue         			numeric; -- Ingreso Ventas 
   v_cogs         					numeric; -- Costos de Ventas 
