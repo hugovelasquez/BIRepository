@@ -1,0 +1,2 @@
+Estos son los SQL-Queries usados para crear diagramas en Metabase (hasta ahora por medio de copy-paste manual). 
+Las versiones actuales contienen el index "2".

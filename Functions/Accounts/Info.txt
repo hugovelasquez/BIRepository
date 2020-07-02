@@ -1,5 +1,2 @@
-Accounts contiene las funciones más básicas para crear KPIs.
-Estas funciones sirven para guardar números de cuentas. 
-
-Las demás funciones (e.g. de la carpeta Accounting) hacen sus calculós 
-basadas en las cuentas definidas aquí.
+Estas funciones han sido desfasadas. 
+Su funci�n era definir los IDs de cuentas para categorizarlas como "Inventario","Costo de Ventas",etc.

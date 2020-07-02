@@ -1,0 +1,2 @@
+Estas funciones calculan los KPIs. 
+Las versiones actuales contienen el index "2".
