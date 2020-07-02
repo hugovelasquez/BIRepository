@@ -1,2 +1,4 @@
-Estas funciones han sido desfasadas. 
+Estas funciones están desfasadas. 
+Han sido reemplazadas por las funciones dentro de la carpeta "Accounting".
 Su función era definir los IDs de cuentas para categorizarlas como "Inventario","Costo de Ventas",etc.
+
