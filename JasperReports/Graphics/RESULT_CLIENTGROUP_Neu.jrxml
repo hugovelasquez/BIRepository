@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Result_SalesGroup" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="732" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" isTitleNewPage="true" whenResourceMissingType="Error" uuid="e70a7326-4f06-451b-8701-db16debef0bf">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AgrinterPROD_Lokal.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="style1" mode="Opaque" backcolor="#CCCCCC">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[java.lang.Boolean.valueOf(($V{REPORT_COUNT}.compareTo(new java.lang.Integer(3))!=0))]]></conditionExpression>
+			<style/>
+		</conditionalStyle>
+	</style>
+	<parameter name="DateInvoiced1" class="java.util.Date"/>
+	<parameter name="DateInvoiced2" class="java.util.Date"/>
+	<parameter name="AD_CLIENT_ID" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT i.ad_client_ID, SUM(i.qtyinvoiced) AS qtyinvoiced,
+SUM(i.linenetamtreal) AS linenetamtreal, SUM(i.linenetamt) AS linenetamt,
+CASE WHEN bp.c_bp_Salesgroup_ID IS NULL 
+     THEN 'No definido' 
+     ELSE act.name 
+END AS activity,
+SUM(transactioncost) AS Cost,
+SUM(marge_abs) AS marge,
+CASE
+  WHEN SUM(i.linenetamtreal)=0 THEN 0
+  ELSE SUM(marge_abs) / SUM(i.linenetamtreal)
+END AS marge_Per
+FROM rv_Invoiceline_detail i
+INNER JOIN c_bpartner bp ON i.customer_id = bp.c_bpartner_ID
+LEFT JOIN c_bp_Salesgroup act ON bp.c_bp_Salesgroup_ID = act.c_bp_Salesgroup_ID
+WHERE i.ad_client_ID = $P{AD_CLIENT_ID}  
+AND i.issotrx = 'Y' 
+AND i.docstatus IN ('CO') 
+AND i.docbasetype = 'ARI'
+AND i.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2} 
+GROUP BY i.ad_client_ID,
+CASE 
+  WHEN bp.c_bp_Salesgroup_ID IS NULL 
+  THEN 'No definido' 
+  ELSE act.name 
+END]]>
+	</queryString>
+	<field name="ad_client_id" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="ad_client_id"/>
+	</field>
+	<field name="qtyinvoiced" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="qtyinvoiced"/>
+	</field>
+	<field name="linenetamtreal" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="linenetamtreal"/>
+	</field>
+	<field name="linenetamt" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="linenetamt"/>
+	</field>
+	<field name="activity" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="activity"/>
+	</field>
+	<field name="cost" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cost"/>
+	</field>
+	<field name="marge" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="marge"/>
+	</field>
+	<field name="marge_per" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="marge_per"/>
+	</field>
+	<sortField name="linenetamtreal" order="Descending"/>
+	<variable name="SUMME_LINENETAMT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{linenetamt}]]></variableExpression>
+	</variable>
+	<variable name="LINENETAMT_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{linenetamt}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="568">
+			<staticText>
+				<reportElement key="staticText-1" x="2" y="0" width="730" height="23" uuid="e3cd96c5-63ff-4da0-a155-6d417ff26e33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Analisis de Resultado por Canal de Ventas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="24" width="42" height="20" uuid="db8549e1-cf7b-4793-9887-229466b9a990"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Generado:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="46" width="730" height="2" forecolor="#CCCCCC" uuid="b4c21047-db9a-4f44-847b-dd39e3e87d42"/>
+			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="44" y="24" width="100" height="21" uuid="60f91cf4-b736-4d4b-a6bf-7bda78d33303"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="274" y="24" width="100" height="20" uuid="c1a7a876-92f3-4d98-b0bf-f56c9e3fcea9"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateInvoiced1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="372" y="24" width="13" height="19" uuid="e16f6cc9-521f-43e0-b620-4bb743e15014"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[  a]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="385" y="24" width="79" height="20" uuid="daedd738-499c-4f15-9c8f-c0d229b9adec"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateInvoiced2}]]></textFieldExpression>
+			</textField>
+			<pie3DChart>
+				<chart isShowLegend="true" evaluationTime="Report">
+					<reportElement x="0" y="70" width="732" height="238" uuid="c30b27ee-f723-4ccd-9a65-b3e95bdc0795"/>
+					<box>
+						<topPen lineWidth="0.75" lineColor="#999999"/>
+						<leftPen lineWidth="0.75" lineColor="#999999"/>
+						<bottomPen lineWidth="0.75" lineColor="#999999"/>
+						<rightPen lineWidth="0.75" lineColor="#999999"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Left"/>
+				</chart>
+				<pieDataset maxCount="10">
+					<keyExpression><![CDATA[$F{activity}]]></keyExpression>
+					<valueExpression><![CDATA[$F{linenetamtreal}]]></valueExpression>
+					<otherKeyExpression><![CDATA["Otros"]]></otherKeyExpression>
+				</pieDataset>
+				<pie3DPlot labelFormat="{0} {2}">
+					<plot foregroundAlpha="1.0"/>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+				</pie3DPlot>
+			</pie3DChart>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="50" width="732" height="20" backcolor="#CCCCCC" uuid="4e2f8afd-52e3-4fdc-977a-170aff16e02e"/>
+				<box>
+					<topPen lineWidth="0.75" lineColor="#666666"/>
+					<leftPen lineWidth="0.75" lineColor="#666666"/>
+					<rightPen lineWidth="0.75" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Participacion en Venta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="312" width="732" height="20" backcolor="#CCCCCC" uuid="7fc49730-fb4e-43de-ac96-b4ddad4ac7a2"/>
+				<box>
+					<topPen lineWidth="0.75" lineColor="#666666"/>
+					<leftPen lineWidth="0.75" lineColor="#666666"/>
+					<rightPen lineWidth="0.75" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Participacion en Ganancia]]></text>
+			</staticText>
+			<pie3DChart>
+				<chart isShowLegend="true" evaluationTime="Report">
+					<reportElement x="0" y="330" width="732" height="238" uuid="f83358b6-d1ac-4041-a7c9-19dfa2c22de0"/>
+					<box>
+						<topPen lineWidth="0.75" lineColor="#999999"/>
+						<leftPen lineWidth="0.75" lineColor="#999999"/>
+						<bottomPen lineWidth="0.75" lineColor="#999999"/>
+						<rightPen lineWidth="0.75" lineColor="#999999"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Left"/>
+				</chart>
+				<pieDataset maxCount="6">
+					<keyExpression><![CDATA[$F{activity}]]></keyExpression>
+					<valueExpression><![CDATA[$F{marge}]]></valueExpression>
+					<otherKeyExpression><![CDATA["Otros"]]></otherKeyExpression>
+				</pieDataset>
+				<pie3DPlot labelFormat="{0} {2}">
+					<plot foregroundAlpha="1.0"/>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band height="60">
+			<textField>
+				<reportElement x="0" y="0" width="732" height="30" uuid="c05ff3fd-4c37-4911-99a5-bf88ad897b6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Detalles"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="370" y="30" width="100" height="30" uuid="3baca2c3-f874-4e4a-9949-2677a3837c55">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="18b48bf6-bd85-4c9b-90c2-710035e6dad4"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Utilidad Bruta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="30" width="100" height="30" uuid="87526ac2-43e2-45ba-b689-97575a4944b0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="18b48bf6-bd85-4c9b-90c2-710035e6dad4"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ventas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="270" height="30" uuid="82737239-6884-431a-94bb-112eed98a7b8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="18b48bf6-bd85-4c9b-90c2-710035e6dad4"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Canal de Ventas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="30" width="140" height="30" uuid="0acb9240-6469-4dea-b825-528c5f4b17ba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="18b48bf6-bd85-4c9b-90c2-710035e6dad4"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Margen]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="55">
+			<textField>
+				<reportElement x="0" y="0" width="270" height="30" uuid="c0c8283d-0955-414a-ad1c-7b3718cd88b2"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{activity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement x="270" y="0" width="100" height="30" uuid="04dacb8e-3026-4c75-ae2a-14001d3f7840"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{linenetamtreal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.##%;(#,##0.##)">
+				<reportElement x="470" y="0" width="140" height="30" uuid="da02bca2-402f-481b-9316-0602a6900637"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{marge_per}.multiply(BigDecimal.valueOf(100))]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###-)">
+				<reportElement x="370" y="0" width="100" height="30" uuid="c8ba228e-9536-42bc-b81a-c08cbedcd32e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="18b48bf6-bd85-4c9b-90c2-710035e6dad4"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{marge}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<lastPageFooter>
+		<band/>
+	</lastPageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
