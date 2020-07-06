@@ -1,0 +1,5 @@
+Estas son las funciones básicas para calcular KPIs financieros.
+Estas funciones filtran información por categorías ("Revenue","Inventario","Costo de Ventas",etc.) 
+y suman montos de débito y crédito.
+
+Las versiones actuales contienen el index "2".

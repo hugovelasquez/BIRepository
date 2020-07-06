@@ -1,0 +1,3 @@
+Estas funciones calculan los KPIs financieros. 
+Los SQL-Queries en Metabase referencian a estas funciones. 
+Las versiones actuales contienen el index "2".
