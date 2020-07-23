@@ -36,8 +36,7 @@ INNER JOIN c_bpartner bp on i.customer_id = bp.c_bpartner_ID
 INNER JOIN c_bpartner_Location bpl on bp.c_Bpartner_ID=bpl.c_Bpartner_ID
 WHERE i.ad_client_ID = $P{AD_CLIENT_ID}  
 AND i.issotrx = 'Y' 
-AND i.docstatus in ('CO') 
-AND i.docbasetype = 'ARI'
+AND docstatus in ('CO','CL', '??')
 AND i.dateinvoiced BETWEEN $P{DateInvoiced1} AND  $P{DateInvoiced2} 
 GROUP BY i.ad_client_ID, activity]]>
 	</queryString>
@@ -268,10 +267,10 @@ GROUP BY i.ad_client_ID, activity]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{linenetamtreal}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.##%;(#,##0.##)">
+			<textField pattern="#,##0.##%">
 				<reportElement x="470" y="0" width="100" height="15" uuid="da02bca2-402f-481b-9316-0602a6900637"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{marge_per}.multiply(BigDecimal.valueOf(100))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{marge_per}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###;(#,##0.###-)">
 				<reportElement x="370" y="0" width="100" height="15" uuid="c8ba228e-9536-42bc-b81a-c08cbedcd32e">

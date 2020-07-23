@@ -123,10 +123,7 @@ AND ild.issotrx=$P{IsSOTrx}
 AND $P!{C_BPARTNER_ID_CUSTOMER_QUERY}
 AND $P!{C_BPARTNER_ID_VENDOR_QUERY}
 AND ild.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2}
-AND ( ( ild.docbasetype = 'ARI' AND ild.docstatus IN ('CO','VO')     ) 
-	   OR 
-      (ild.docstatus IN ('CO') AND ild.IsDiscountAllowedOnTotal = 'Y')
-    )
+AND docstatus in ('CO','CL', '??')
 GROUP BY ild.vendorname, ild.dateinvoicedformatted, ild.linenetamtreal
 ORDER BY ild.linenetamtreal DESC
 LIMIT  $P{LIMIT}]]>
