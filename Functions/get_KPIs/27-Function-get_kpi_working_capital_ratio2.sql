@@ -28,7 +28,7 @@ DECLARE
   v_trade_receivables			numeric; -- Cobros abiertos de operaciones (suma del balance financiero)
   v_trade_payables				numeric; -- Creditos abiertos de operaciones (suma del balance financiero)
 
-  v_working_capital_ratio 		numeric; -- Return = (trade receivables + inventory - trade payabales) / sales revenue * 100
+  v_working_capital_ratio 		numeric; -- Ratio de Capital circulante = (trade receivables + inventory - trade payabales) / sales revenue * 100
 BEGIN
   v_working_capital_ratio = 0;
   

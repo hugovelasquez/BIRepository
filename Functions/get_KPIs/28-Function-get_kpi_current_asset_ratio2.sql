@@ -24,7 +24,7 @@ DECLARE
   v_current_assets				numeric; -- Activos corrientes (suma del balance financiero)
   v_current_liabilities			numeric; -- Pasivos corrientes (suma del balance financiero)
 
-  v_current_asset_ratio 		numeric; -- Return = (trade receivables + inventory - trade payabales) / sales revenue * 100
+  v_current_asset_ratio 		numeric; -- Ratio de activos corrientes = current_assets / current_liabilities
 BEGIN
   v_current_asset_ratio = 0;
   

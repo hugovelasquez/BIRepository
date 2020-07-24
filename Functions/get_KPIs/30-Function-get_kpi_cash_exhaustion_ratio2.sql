@@ -55,13 +55,6 @@ BEGIN
     p_postingtype,                                  		-- Posting Type
     1                                               		-- Multiplier= x1
     ); 
-	
-  v_depreciation = getamtacctbalance_year2(
-    p_year,   		                                    	-- Year 
-    v_depreciation_field,                          			-- Depreciaciones (ciertas Cuentas GASTO VENTAS + ciertas Cuentas GASTO ADMINISTRACION = '4030101' + '4030102')
-    p_postingtype,                                  		-- Posting Type
-    1                                               		-- Multiplier= x1
-    ); 
 
   v_cash = getamtacctbalance_year2(
     p_year,   		                                    	-- Year 
@@ -70,7 +63,7 @@ BEGIN
     1                                               		-- Multiplier= x1
     );  	
 
-    v_total_operating_costs  = v_cogs + v_labour_costs_direct + v_other_operating_expenses + v_depreciation;	
+    v_total_operating_costs  = v_cogs + v_labour_costs_direct + v_other_operating_expenses;	
     v_avg_daily_expenditure  = v_total_operating_costs / 365;	
 	
 
