@@ -119,12 +119,11 @@ INNER JOIN LATERAL (
     ) AS pertmp ON 1=1
 WHERE ild.ad_client_ID = $P{AD_CLIENT_ID}
 AND ild.issotrx=$P{IsSOTrx} 
+AND docstatus in ('CO','CL', '??')
 AND $P!{C_BPARTNER_ID_CUSTOMER_QUERY}
 AND $P!{C_BPARTNER_ID_VENDOR_QUERY}
 AND $P!{M_PRODUCT_ID_QUERY}
-AND ild.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2}
-AND ild.Docstatus IN ('CO')
-AND ild.docbasetype = 'ARI']]>
+AND ild.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2}]]>
 	</queryString>
 	<field name="customername" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="customername"/>

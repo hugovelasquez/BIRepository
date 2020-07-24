@@ -96,7 +96,7 @@
 		<defaultValueExpression><![CDATA['Y']]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT ild.customername, ild.vendorname, 
+		<![CDATA[SELECT ild.customername, COALESCE(ild.vendorname, 'Cargos') as vendorname, 
 pertmp.periodname, ild.dateinvoiced, 
 ild.qtyinvoiced,
 ild.linenetamtreal
@@ -111,11 +111,10 @@ INNER JOIN LATERAL (
     ) AS pertmp ON 1=1
 WHERE ild.ad_client_ID = $P{AD_CLIENT_ID}
 AND ild.issotrx=$P{IsSOTrx} 
+AND docstatus in ('CO','CL', '??')
 AND $P!{C_BPARTNER_ID_CUSTOMER_QUERY}
 AND $P!{C_BPARTNER_ID_VENDOR_QUERY}
-AND ild.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2}
-AND ild.Docstatus IN ('CO')
-AND ild.docbasetype = 'ARI']]>
+AND ild.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2}]]>
 	</queryString>
 	<field name="customername" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="customername"/>
@@ -123,7 +122,6 @@ AND ild.docbasetype = 'ARI']]>
 	</field>
 	<field name="vendorname" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="vendorname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="c_bpartner"/>
 	</field>
 	<field name="periodname" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="periodname"/>
@@ -140,7 +138,6 @@ AND ild.docbasetype = 'ARI']]>
 	<field name="linenetamtreal" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="linenetamtreal"/>
 	</field>
-	<sortField name="vendorname"/>
 	<sortField name="customername"/>
 	<background>
 		<band splitType="Stretch"/>

@@ -107,7 +107,7 @@
 		<defaultValueExpression><![CDATA['Y']]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT ild.customername, ild.vendorname, ild.productname,
+		<![CDATA[SELECT ild.customername, COALESCE(ild.vendorname, 'Sin Proveedor') as vendorname, ild.productname,
 pertmp.periodname, ild.dateinvoiced, 
 ild.qtyinvoiced,
 ild.linenetamtreal
@@ -122,12 +122,11 @@ INNER JOIN LATERAL (
     ) AS pertmp ON 1=1
 WHERE ild.ad_client_ID = $P{AD_CLIENT_ID}
 AND ild.issotrx=$P{IsSOTrx} 
+AND docstatus in ('CO','CL', '??')
 AND $P!{C_BPARTNER_ID_CUSTOMER_QUERY}
 AND $P!{C_BPARTNER_ID_VENDOR_QUERY}
 AND $P!{M_PRODUCT_ID_QUERY}
-AND ild.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2}
-AND ild.Docstatus IN ('CO')
-AND ild.docbasetype = 'ARI']]>
+AND ild.dateinvoiced BETWEEN $P{DateInvoiced1} AND $P{DateInvoiced2}]]>
 	</queryString>
 	<field name="customername" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="customername"/>
@@ -274,14 +273,14 @@ AND ild.docbasetype = 'ARI']]>
 					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
 					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
 				</reportElement>
-				<rowGroup name="vendorname" width="180" totalPosition="End">
+				<rowGroup name="vendorname" width="100" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{vendorname}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents mode="Opaque" style="Crosstab_CH">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="180" height="40" uuid="c0360850-af46-4762-8d06-66667ed5f2e2"/>
+								<reportElement x="0" y="0" width="100" height="40" uuid="c0360850-af46-4762-8d06-66667ed5f2e2"/>
 								<textFieldExpression><![CDATA[$V{vendorname}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -289,7 +288,7 @@ AND ild.docbasetype = 'ARI']]>
 					<crosstabTotalRowHeader>
 						<cellContents mode="Opaque" style="Crosstab_CT">
 							<staticText>
-								<reportElement x="0" y="0" width="300" height="20" forecolor="#FFFFFF" uuid="8373c570-9874-4d93-964a-958fd9683125"/>
+								<reportElement x="0" y="0" width="220" height="20" forecolor="#FFFFFF" uuid="8373c570-9874-4d93-964a-958fd9683125"/>
 								<text><![CDATA[Total Proveedores/Productos]]></text>
 							</staticText>
 						</cellContents>
@@ -324,6 +323,7 @@ AND ild.docbasetype = 'ARI']]>
 						<cellContents mode="Opaque" style="Crosstab_CH">
 							<textField>
 								<reportElement x="0" y="0" width="60" height="20" uuid="66991f92-fdde-4ef5-8242-3d12bfb28b8e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$V{periodname}]]></textFieldExpression>
 							</textField>
 						</cellContents>
@@ -331,8 +331,9 @@ AND ild.docbasetype = 'ARI']]>
 					<crosstabTotalColumnHeader>
 						<cellContents mode="Opaque" style="Crosstab_CT">
 							<staticText>
-								<reportElement x="0" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="84cf5e2e-045c-4806-8f9e-9e42791907ef"/>
-								<text><![CDATA[Total Períodos]]></text>
+								<reportElement x="0" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="84cf5e2e-045c-4806-8f9e-9e42791907ef"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalColumnHeader>
@@ -344,16 +345,20 @@ AND ild.docbasetype = 'ARI']]>
 					<cellContents mode="Opaque" style="Crosstab_CD">
 						<textField pattern="#,##0.00#">
 							<reportElement x="0" y="0" width="60" height="20" uuid="77d171c3-714f-4dd1-b694-77120315dd89"/>
-							<textElement textAlignment="Right"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="9"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{linenetamtreal_MEASURE}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="80" height="20" columnTotalGroup="periodname">
+				<crosstabCell width="70" height="20" columnTotalGroup="periodname">
 					<cellContents mode="Opaque" style="Crosstab_CT">
 						<textField pattern="#,##0.00#">
-							<reportElement x="0" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="c9de7beb-b9e3-4d4d-bead-5c9f8d956b74"/>
-							<textElement textAlignment="Right"/>
+							<reportElement x="0" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="c9de7beb-b9e3-4d4d-bead-5c9f8d956b74"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="9"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{linenetamtreal_MEASURE}]]></textFieldExpression>
 						</textField>
 					</cellContents>
@@ -362,16 +367,20 @@ AND ild.docbasetype = 'ARI']]>
 					<cellContents mode="Opaque" style="Crosstab_CT">
 						<textField pattern="#,##0.00#">
 							<reportElement x="0" y="0" width="60" height="20" forecolor="#FFFFFF" uuid="4f5b5e65-73a4-4a34-8a68-d599f2de6335"/>
-							<textElement textAlignment="Right"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="9"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{linenetamtreal_MEASURE}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="80" height="20" rowTotalGroup="vendorname" columnTotalGroup="periodname">
+				<crosstabCell width="70" height="20" rowTotalGroup="vendorname" columnTotalGroup="periodname">
 					<cellContents mode="Opaque" style="Crosstab_CT">
 						<textField pattern="#,##0.00#">
-							<reportElement x="0" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="557b47f3-0403-4575-9e19-f553bc55893c"/>
-							<textElement textAlignment="Right"/>
+							<reportElement x="0" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="557b47f3-0403-4575-9e19-f553bc55893c"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="9"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{linenetamtreal_MEASURE}]]></textFieldExpression>
 						</textField>
 					</cellContents>
@@ -380,16 +389,20 @@ AND ild.docbasetype = 'ARI']]>
 					<cellContents mode="Opaque" style="Crosstab_CG">
 						<textField pattern="#,##0.00#">
 							<reportElement x="0" y="0" width="60" height="20" uuid="57f3bfaf-410f-442d-9831-71781c8753b9"/>
-							<textElement textAlignment="Right"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="9"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{linenetamtreal_MEASURE}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="80" height="20" rowTotalGroup="productname" columnTotalGroup="periodname">
+				<crosstabCell width="70" height="20" rowTotalGroup="productname" columnTotalGroup="periodname">
 					<cellContents mode="Opaque" style="Crosstab_CT">
 						<textField pattern="#,##0.00#">
-							<reportElement x="0" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="24542395-abac-497c-a148-6ccaa7d8506a"/>
-							<textElement textAlignment="Right"/>
+							<reportElement x="0" y="0" width="70" height="20" forecolor="#FFFFFF" uuid="24542395-abac-497c-a148-6ccaa7d8506a"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle">
+								<font size="9"/>
+							</textElement>
 							<textFieldExpression><![CDATA[$V{linenetamtreal_MEASURE}]]></textFieldExpression>
 						</textField>
 					</cellContents>

@@ -58,7 +58,7 @@ where cli.AD_Client_ID = $P{AD_CLIENT_ID}]]>
 " true": "m_product_category_id=".concat($P{M_PRODUCT_CATEGORY_ID}.toString())]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT pcatname, productvalue, productname,
+		<![CDATA[SELECT COALESCE (pcatname, 'Cargo') as pcatname, productvalue, productname,
  COALESCE( SUM(qtyinvoiced) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 2) ,0)  AS "year-2qty",
  COALESCE( SUM(qtyinvoiced) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 1) ,0)  AS "year-1qty",
  COALESCE( SUM(qtyinvoiced) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp)     ) ,0) AS "year0qty",
@@ -67,19 +67,17 @@ where cli.AD_Client_ID = $P{AD_CLIENT_ID}]]>
  COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 1) ,0) AS "year-1amt",
  COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp)     ) ,0) AS "year0amt"
 
+
 FROM rv_invoiceline_detail
 WHERE ad_Client_ID= $P{AD_CLIENT_ID} 
 AND issotrx=$P{IsSOTrx} 
-AND ( ( docbasetype = 'ARI' AND docstatus in ('CO','VO') ) 
-	       OR 
-	       (docstatus in ('CO') AND IsDiscountAllowedOnTotal = 'Y')
-)
+AND docstatus in ('CO','CL', '??')
 AND $P!{M_PRODUCT_CATEGORY_ID_QUERY}
 AND $P!{C_BPARTNER_ID_CUSTOMER_QUERY}
 AND dateinvoicedonlyyear >= date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 2 
 
 GROUP BY pcatname, productvalue, productname
-ORDER BY pcatname ASC, productname ASC]]>
+]]>
 	</queryString>
 	<field name="pcatname" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="pcatname"/>
@@ -278,27 +276,6 @@ ORDER BY pcatname ASC, productname ASC]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{Year-2Amt}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement x="428" y="1" width="55" height="12" uuid="0c2c1616-f3a3-4014-8065-c9ef3d7e50c0"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="9" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{Year0Qty}]]></textFieldExpression>
-				</textField>
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement x="182" y="1" width="55" height="12" uuid="ba98c40a-291b-4852-934b-63e78dfc8473"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="9" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{Year-2Qty}]]></textFieldExpression>
-				</textField>
-				<textField pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement x="305" y="1" width="55" height="12" uuid="8458e3d3-4cc4-4ae4-a691-426d9fa0d4c8"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="9" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{Year-1Qty}]]></textFieldExpression>
-				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -410,7 +387,7 @@ ORDER BY pcatname ASC, productname ASC]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{year0qty}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="2" y="0" width="58" height="12" uuid="b5c270d8-37e4-4d37-9dc2-4a7c13ef8a35">
 					<property name="com.jaspersoft.studio.unit.y" value="mm"/>
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
@@ -420,7 +397,7 @@ ORDER BY pcatname ASC, productname ASC]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{productvalue}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="61" y="0" width="120" height="12" uuid="89e6ee95-4e77-445a-bfa8-d06a7fc41d17">
 					<property name="com.jaspersoft.studio.unit.y" value="mm"/>
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>

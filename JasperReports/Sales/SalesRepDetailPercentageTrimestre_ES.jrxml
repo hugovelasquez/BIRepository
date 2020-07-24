@@ -111,10 +111,7 @@ where cli.AD_Client_ID = $P{AD_CLIENT_ID}]]>
 FROM rv_invoiceline_detail
 WHERE ad_Client_ID= $P{AD_CLIENT_ID} 
 AND issotrx=$P{IsSOTrx} 
-AND ( ( docbasetype = 'ARI' AND docstatus IN ('CO','VO')     ) 
-	   OR 
-      (docstatus IN ('CO') AND IsDiscountAllowedOnTotal = 'Y')
-    )
+AND docstatus in ('CO','CL', '??')
 AND $P!{SALESREP_ID_QUERY}
 AND $P!{M_PRODUCT_CATEGORY_ID_QUERY}
 AND $P!{C_BPARTNER_ID_CUSTOMER_QUERY}

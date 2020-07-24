@@ -68,10 +68,7 @@ WHERE cli.AD_Client_ID = $P{AD_CLIENT_ID}]]>
 FROM rv_invoiceline_detail
 WHERE AD_Client_ID= $P{AD_CLIENT_ID} 
 AND issotrx=$P{IsSOTrx}
-AND ( ( docbasetype = 'ARI' AND docstatus IN ('CO','VO')     ) 
-	   OR 
-      (docstatus IN ('CO') AND IsDiscountAllowedOnTotal = 'Y')
-    )
+AND docstatus in ('CO','CL', '??')
 AND dateinvoicedonlyyear >= date_part('YEAR'::text, $P{DateInvoiced}::timestamp) - 4  
 
 GROUP BY dateinvoicedonlymonth
@@ -431,21 +428,27 @@ $V{Year-4AmtTotal}.compareTo(new java.math.BigDecimal(0.0) )==0 || $V{Year-4AmtT
 	<summary>
 		<band height="69">
 			<textField evaluationTime="Report" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="470" y="40" width="81" height="20" uuid="d2e6c207-132b-473a-9629-71b0701181ba"/>
+				<reportElement x="455" y="40" width="96" height="20" uuid="d2e6c207-132b-473a-9629-71b0701181ba">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{Year0AmtTotal}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="387" y="40" width="80" height="20" uuid="bce0ff7f-42a6-411b-b6d3-d97b80862990"/>
+				<reportElement x="359" y="40" width="96" height="20" uuid="bce0ff7f-42a6-411b-b6d3-d97b80862990">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{Year-1AmtTotal}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="305" y="40" width="80" height="20" uuid="cfb363e6-04e1-42dd-b767-fed663ef99d8"/>
+				<reportElement x="263" y="40" width="96" height="20" uuid="cfb363e6-04e1-42dd-b767-fed663ef99d8">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -459,87 +462,119 @@ $V{Year-4AmtTotal}.compareTo(new java.math.BigDecimal(0.0) )==0 || $V{Year-4AmtT
 				<text><![CDATA[Total Ventas]]></text>
 			</staticText>
 			<textField pattern="####" isBlankWhenNull="true">
-				<reportElement x="305" y="24" width="80" height="11" uuid="ef3bb557-7857-4d05-8aab-5be4fbb8997e">
+				<reportElement x="263" y="24" width="96" height="11" uuid="ef3bb557-7857-4d05-8aab-5be4fbb8997e">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
 				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Montos ".concat(String.valueOf(($P{DateInvoiced}.getYear())-2+1900))]]></textFieldExpression>
 			</textField>
 			<textField pattern="####" isBlankWhenNull="true">
-				<reportElement x="387" y="24" width="80" height="11" uuid="d9c2d978-dbc7-4972-a5da-56036e862429">
+				<reportElement x="359" y="24" width="96" height="11" uuid="d9c2d978-dbc7-4972-a5da-56036e862429">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
 				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Montos ".concat(String.valueOf(($P{DateInvoiced}.getYear())-1+1900))]]></textFieldExpression>
 			</textField>
 			<textField pattern="####" isBlankWhenNull="true">
-				<reportElement x="470" y="24" width="80" height="11" uuid="846a35d1-8cae-41c1-b2de-810039dc02c8">
+				<reportElement x="455" y="24" width="96" height="11" uuid="846a35d1-8cae-41c1-b2de-810039dc02c8">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
 				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Montos ".concat(String.valueOf(($P{DateInvoiced}.getYear())+1900))]]></textFieldExpression>
 			</textField>
 			<textField pattern="####" isBlankWhenNull="true">
-				<reportElement x="223" y="24" width="80" height="11" uuid="63bfea5f-b3c2-4508-8023-857232a6cdb5">
+				<reportElement x="167" y="24" width="96" height="11" uuid="63bfea5f-b3c2-4508-8023-857232a6cdb5">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
 				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Montos ".concat(String.valueOf(($P{DateInvoiced}.getYear())-3+1900))]]></textFieldExpression>
 			</textField>
 			<textField pattern="####" isBlankWhenNull="true">
-				<reportElement x="140" y="24" width="80" height="11" uuid="5abd86fe-3715-41e6-8eab-df3b23e72170">
+				<reportElement x="71" y="24" width="96" height="11" uuid="5abd86fe-3715-41e6-8eab-df3b23e72170">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
 				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Montos ".concat(String.valueOf(($P{DateInvoiced}.getYear())-4+1900))]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="223" y="40" width="80" height="20" uuid="f2d1e7c2-7456-4241-be2a-53505d5f7fac"/>
+				<reportElement x="167" y="40" width="96" height="20" uuid="f2d1e7c2-7456-4241-be2a-53505d5f7fac">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{Year-3AmtTotal}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="140" y="40" width="80" height="20" uuid="b20dce17-718b-4a40-976c-f5cc1b523be2"/>
+				<reportElement x="71" y="40" width="96" height="20" uuid="b20dce17-718b-4a40-976c-f5cc1b523be2">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Top">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{Year-4AmtTotal}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="481" y="60" width="70" height="9" isRemoveLineWhenBlank="true" uuid="43b3dd7c-ff00-49a6-a5fb-ed799aa8a132"/>
+				<reportElement x="455" y="60" width="96" height="9" isRemoveLineWhenBlank="true" uuid="43b3dd7c-ff00-49a6-a5fb-ed799aa8a132">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["(".concat($V{Year0TotalPercentage}.setScale(0).toString()).concat("%)")]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="397" y="60" width="70" height="9" isRemoveLineWhenBlank="true" uuid="6a4b3aa4-ef1b-4c6c-b3da-2884ded23756"/>
+				<reportElement x="359" y="60" width="96" height="9" isRemoveLineWhenBlank="true" uuid="6a4b3aa4-ef1b-4c6c-b3da-2884ded23756">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["(".concat($V{Year-1TotalPercentage}.setScale(0).toString()).concat("%)")]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="315" y="60" width="70" height="9" isRemoveLineWhenBlank="true" uuid="eedd675e-3655-466d-8a73-2f83f74c0753"/>
+				<reportElement x="263" y="60" width="96" height="9" isRemoveLineWhenBlank="true" uuid="eedd675e-3655-466d-8a73-2f83f74c0753">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["(".concat($V{Year-2TotalPercentage}.setScale(0).toString()).concat("%)")]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0" isBlankWhenNull="true">
-				<reportElement x="233" y="60" width="70" height="9" isRemoveLineWhenBlank="true" uuid="385b8445-93eb-4160-81ab-b1d04ae1aa9c"/>
+				<reportElement x="167" y="60" width="96" height="9" isRemoveLineWhenBlank="true" uuid="385b8445-93eb-4160-81ab-b1d04ae1aa9c">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>

@@ -57,7 +57,7 @@ where cli.AD_Client_ID = $P{AD_CLIENT_ID}]]>
 " true": "m_product_category_id=".concat($P{M_PRODUCT_CATEGORY_ID}.toString())]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT pcatvalue, pcatname, 
+		<![CDATA[SELECT pcatvalue, COALESCE (pcatname, 'Cargo') as pcatname, 
  COALESCE( SUM(qtyinvoiced) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 2) ,0)  AS "year-2qty",
  COALESCE( SUM(qtyinvoiced) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 1) ,0)  AS "year-1qty",
  COALESCE( SUM(qtyinvoiced) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp)    ) ,0) AS "year0qty",
@@ -66,19 +66,16 @@ where cli.AD_Client_ID = $P{AD_CLIENT_ID}]]>
  COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 1) ,0) AS "year-1amt",
  COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text,  $P{DateInvoiced}::timestamp)    ) ,0) AS "year0amt"
 
+
 FROM rv_invoiceline_detail
 WHERE ad_Client_ID= $P{AD_CLIENT_ID} 
 AND issotrx=$P{IsSOTrx} 
-AND ( ( docbasetype = 'ARI' AND docstatus IN ('CO','VO')     ) 
-	   OR 
-      (docstatus IN ('CO') AND IsDiscountAllowedOnTotal = 'Y')
-    )
+AND docstatus in ('CO','CL', '??')
 AND $P!{M_PRODUCT_CATEGORY_ID_QUERY}
 AND $P!{C_BPARTNER_ID_CUSTOMER_QUERY}
 AND dateinvoicedonlyyear >= date_part('YEAR'::text,  $P{DateInvoiced}::timestamp) - 2         
         
-GROUP BY pcatvalue, pcatname
-ORDER BY pcatname ASC]]>
+GROUP BY pcatvalue, pcatname]]>
 	</queryString>
 	<field name="pcatvalue" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="pcatvalue"/>
@@ -263,13 +260,6 @@ ORDER BY pcatname ASC]]>
 				<text><![CDATA[Categoría]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="Empresa" x="183" y="38" width="55" height="10" uuid="479e1133-41e6-4911-8649-4205811653b6"/>
-				<textElement textAlignment="Right" verticalAlignment="Bottom">
-					<font size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Cantidad]]></text>
-			</staticText>
-			<staticText>
 				<reportElement key="Empresa" x="239" y="38" width="65" height="10" uuid="117d9ad5-e9e6-4124-973a-fcd54892fd5b"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font size="8" isBold="false"/>
@@ -277,25 +267,11 @@ ORDER BY pcatname ASC]]>
 				<text><![CDATA[Monto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement key="Empresa" x="306" y="38" width="55" height="10" uuid="84ce7fad-ecfd-4239-9e16-d429fb407752"/>
-				<textElement textAlignment="Right" verticalAlignment="Bottom">
-					<font size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Cantidad]]></text>
-			</staticText>
-			<staticText>
 				<reportElement key="Empresa" x="362" y="38" width="65" height="10" uuid="671319ec-d220-42fe-8a82-04e0ba3f3d0b"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Monto]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="Empresa" x="428" y="38" width="54" height="10" uuid="a4ec8dd1-5418-4835-b8f7-fe971159d2bd"/>
-				<textElement textAlignment="Right" verticalAlignment="Bottom">
-					<font size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
 				<reportElement key="Empresa" x="483" y="38" width="67" height="10" uuid="a5082443-3dfc-4e04-9fcc-ca1d34c6db3a"/>
@@ -325,15 +301,6 @@ ORDER BY pcatname ASC]]>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{year0amt}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="428" y="0" width="55" height="12" uuid="057e2dba-b43e-46ec-8d29-2b51e36d2c42">
-					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{year0qty}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="2" y="0" width="58" height="12" uuid="b5c270d8-37e4-4d37-9dc2-4a7c13ef8a35">
@@ -368,25 +335,6 @@ ORDER BY pcatname ASC]]>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{year-2amt}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="305" y="0" width="55" height="12" uuid="9709e68a-8a63-4d30-9f31-4552eb8fad89">
-					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{year-1qty}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="182" y="0" width="55" height="12" uuid="7fd840cb-d79e-4aa2-8ecc-01a6a52cf233">
-					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
-					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{year-2qty}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
