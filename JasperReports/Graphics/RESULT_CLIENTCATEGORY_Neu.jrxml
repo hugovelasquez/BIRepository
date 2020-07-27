@@ -72,11 +72,11 @@ END]]>
 		<property name="com.jaspersoft.studio.field.label" value="marge_per"/>
 	</field>
 	<sortField name="linenetamtreal" order="Descending"/>
-	<variable name="SUMME_LINENETAMT" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{linenetamt}]]></variableExpression>
+	<variable name="SUMME_LINENETAMTREAL" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{linenetamtreal}]]></variableExpression>
 	</variable>
-	<variable name="LINENETAMT_1" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{linenetamt}]]></variableExpression>
+	<variable name="SUMME_MARGE" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{marge}]]></variableExpression>
 	</variable>
 	<background>
 		<band/>
@@ -298,6 +298,56 @@ END]]>
 		<band/>
 	</lastPageFooter>
 	<summary>
-		<band/>
+		<band height="45">
+			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+			<textField>
+				<reportElement x="5" y="28" width="230" height="17" uuid="afe9ba7c-a11e-475d-85b6-62afe60f19ec">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Todos Grupos de Clientes"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.##;(#,##0.##-)">
+				<reportElement x="263" y="28" width="100" height="17" uuid="aaaca492-450d-4b25-b09f-487ab9eeb42d">
+					<property name="com.jaspersoft.studio.unit.y" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUMME_LINENETAMTREAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.##;(#,##0.##-)">
+				<reportElement x="383" y="28" width="100" height="17" uuid="8604ec5b-e133-4b60-8459-76c1f46db3d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="18b48bf6-bd85-4c9b-90c2-710035e6dad4"/>
+					<property name="com.jaspersoft.studio.unit.y" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUMME_MARGE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="495" y="28" width="80" height="17" uuid="c4db2ae6-169b-4f97-82ab-94f1377c2646">
+					<property name="com.jaspersoft.studio.unit.y" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUMME_MARGE}.divide($V{SUMME_LINENETAMTREAL}, 4, RoundingMode.HALF_UP).multiply(java.math.BigDecimal.valueOf(100)).setScale(2).toString() + " %"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="5" width="732" height="20" uuid="4dbc892e-c8a9-4a30-b9b0-234286cc825b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Totales"]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
