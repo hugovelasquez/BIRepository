@@ -96,11 +96,11 @@ where cli.AD_Client_ID = $P{AD_CLIENT_ID}]]>
             ELSE 'Diciembre'
         END AS dateinvoicedmonthname,
   
- COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text, $P{DateInvoiced}::timestamp) - 4) ,0)  AS "year-4amt",
- COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text, $P{DateInvoiced}::timestamp) - 3) ,0)  AS "year-3amt",
- COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text, $P{DateInvoiced}::timestamp) - 2) ,0)  AS "year-2amt",
- COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text, $P{DateInvoiced}::timestamp) - 1) ,0)  AS "year-1amt",
- COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoicedonlyyear=date_part('YEAR'::text, $P{DateInvoiced}::timestamp)    ) ,0)  AS "year0amt"
+COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoiced BETWEEN date_trunc('year', $P{DateInvoiced}::timestamp - interval '4 year') AND $P{DateInvoiced}::timestamp - interval '4 year') ,0) AS "year-4amt",
+ COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoiced BETWEEN date_trunc('year', $P{DateInvoiced}::timestamp - interval '3 year') AND $P{DateInvoiced}::timestamp - interval '3 year') ,0) AS "year-3amt",
+ COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoiced BETWEEN date_trunc('year', $P{DateInvoiced}::timestamp - interval '2 year') AND $P{DateInvoiced}::timestamp - interval '2 year') ,0) AS "year-2amt",
+ COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoiced BETWEEN date_trunc('year', $P{DateInvoiced}::timestamp - interval '1 year') AND $P{DateInvoiced}::timestamp - interval '1 year') ,0) AS "year-1amt",
+COALESCE( SUM(linenetamtreal) FILTER (WHERE dateinvoiced BETWEEN date_trunc('year', $P{DateInvoiced}::timestamp - interval '0 year') AND $P{DateInvoiced}::timestamp - interval '0 year') ,0) AS "year0amt"
 
 FROM rv_invoiceline_detail
 WHERE ad_Client_ID= $P{AD_CLIENT_ID} 
