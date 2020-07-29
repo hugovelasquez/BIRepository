@@ -39,7 +39,7 @@ BEGIN
     p_year,                                         	-- Year
     v_current_liabilities_field, 	                    -- Pasivos corrientes
     p_postingtype,                                  	-- Posting Type
-    1                                              		-- Multiplier= x1
+    -1                                              	-- Multiplier= x-1
   ); 
 																						
     IF (v_current_liabilities IS NULL OR v_current_liabilities=0)
