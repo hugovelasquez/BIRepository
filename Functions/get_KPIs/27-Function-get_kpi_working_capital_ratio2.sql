@@ -50,14 +50,14 @@ BEGIN
     p_year,                                         	-- Year 
     v_trade_receivables_field,                          -- Trade receivables
     p_postingtype,                                  	-- Posting Type
-    1                                               	-- Multiplier= x1
+    -1                                               	-- Multiplier= x-1
     );   
 
   v_trade_payables = getamtacctbalance_year2(
     p_year,                                         	-- Year 
     v_trade_payables_field,                          	-- Trade payables
     p_postingtype,                                  	-- Posting Type
-    1                                               	-- Multiplier= x1
+    -1                                               	-- Multiplier= x-1
     ); 	
 																						
     IF (v_sales_revenue IS NULL OR v_sales_revenue=0)
