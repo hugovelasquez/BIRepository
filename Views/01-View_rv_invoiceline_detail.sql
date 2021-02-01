@@ -6,7 +6,7 @@
 
 -- DROP MATERIALIZED VIEW rv_invoiceline_detail;
 
-CREATE MATERIALIZED VIEW rv_invoiceline_detail AS 
+CREATE MATERIALIZED VIEW rv_invoiceline_detail AS
  SELECT il.ad_client_id,
     il.ad_org_id,
     il.dateinvoiced,
@@ -24,9 +24,11 @@ CREATE MATERIALIZED VIEW rv_invoiceline_detail AS
     il.linetotalamt,
     il.linenetamtreal,
     linenetamtreturned(il.c_invoiceline_id) AS linenetamtreturned,
+    linenetamtdiscounts(il.c_invoiceline_id) AS linenetamtdiscounts,
+    linenetamtunderpricelimit(il.c_invoiceline_id) AS linenetamtunderpricelimit,
     abs(linenetamtvoided(il.reversalline_id, il.c_invoiceline_id)) AS linenetamtvoided,
     0 AS linenetamtreinvoiced,
-    linenetamtrealinvoiceline(il.c_invoiceline_id) + linenetamtvoided(il.reversalline_id, il.c_invoiceline_id) - linenetamtreturned(il.c_invoiceline_id) AS netsales,
+    il.linenetamtreal + linenetamtvoided(il.reversalline_id, il.c_invoiceline_id) - linenetamtreturned(il.c_invoiceline_id) AS netsales,
     il.c_invoice_id,
     il.c_doctype_id,
     il.docbasetype,
@@ -107,7 +109,9 @@ CREATE MATERIALIZED VIEW rv_invoiceline_detail AS
     bp.name AS customername,
     bp.value AS customervalue,
     COALESCE(taxtrl.name, tax.name) AS tax,
-    COALESCE(uomtrl.name, uom.name) AS uomname
+    COALESCE(uomtrl.name, uom.name) AS uomname,
+    bp.c_bp_salesgroup_id,
+    il.m_pricelist_id
    FROM rv_c_invoiceline il
      JOIN ad_user usr ON il.salesrep_id = usr.ad_user_id
      JOIN ad_client cl ON il.ad_client_id = cl.ad_client_id
@@ -121,7 +125,8 @@ CREATE MATERIALIZED VIEW rv_invoiceline_detail AS
      LEFT JOIN c_period per ON il.dateinvoiced >= per.startdate AND il.dateinvoiced <= per.enddate AND per.ad_client_id = il.ad_client_id
      LEFT JOIN c_uom_trl uomtrl ON il.c_uom_id = uomtrl.c_uom_id AND cl.ad_language::text = uomtrl.ad_language::text
      LEFT JOIN c_tax_trl taxtrl ON il.c_tax_id = taxtrl.c_tax_id AND cl.ad_language::text = taxtrl.ad_language::text
+     --WHERE il.ad_client_id = 1000000::numeric AND il.dateinvoiced >= to_date('01/01/2015'::text, 'dd/mm/yyyy'::text)
 WITH NO DATA;
 
 ALTER TABLE rv_invoiceline_detail
-  OWNER TO adempiere;
+    OWNER TO adempiere;
