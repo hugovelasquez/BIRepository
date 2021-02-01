@@ -9,8 +9,9 @@ AND iob.IsSOTrx='Y'
 AND iob.Processed='Y'
 AND iob.AD_Client_ID = 1000000
 AND iob.wm_InoutBound_ID IN  (
-    SELECT distinct iobl.wm_Inoutbound_ID
-	FROM WM_InoutBoundLine iobl
+    SELECT distinct iob.wm_Inoutbound_ID
+	FROM WM_InoutBound iob
+	INNER JOIN WM_InoutBoundLine iobl ON (iob.WM_InoutBound_ID= iobl.WM_InoutBound_ID)
 	INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID= iobl.C_OrderLine_ID)
 	LEFT JOIN m_InoutLine iol ON (iol.C_OrderLine_ID = iobl.C_OrderLine_ID)
 	WHERE iob.WM_InoutBound_ID=iobl.WM_InoutBound_ID
